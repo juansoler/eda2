@@ -10,12 +10,9 @@ public class ColectorSecundario extends Colector{
 
 
 	public ColectorSecundario(){
-		//super();
+		super();
 	}
 
-	public ColectorSecundario(double flujo, ArrayList<Double> contaminantes) {
-		//super("",flujo, contaminantes);
-	}
 
 	public void addEmpresa(Empresa empresa){
 		empresas.put(empresa.getNombre(), empresa);
