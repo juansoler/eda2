@@ -181,7 +181,7 @@ public class Main {
 	}
 
 	public static void organizarColectores(ArrayList<Colector> colector){
-		int centro = colector.size()/2;
+		int centro = colector.size()/2-1;
 		//zona norte
 		for(int i = 0; i < centro; i++){
 			if(colector.get(i).getHabilitado()){
@@ -195,9 +195,9 @@ public class Main {
 		}
 
 		//zona sur
-		for(int i = colector.size()-1; i >= centro; i--){
+		for(int i = colector.size()-1; i > centro; i--){
 			if(colector.get(i).getHabilitado()){
-				for(int j = i-1;j >= centro; j--){
+				for(int j = i-1;j > centro; j--){
 					if(colector.get(j).getHabilitado()){
 						System.out.println("Colector j: "+colector.get(j).getUbicacion()+" "+ colector.get(j).getFlujo()+" Colector i: "+colector.get(i).getUbicacion()+" "+ colector.get(i).getFlujo());
 						colector.get(j).setFlujo(colector.get(j).getFlujo()+colector.get(i).getFlujo());
