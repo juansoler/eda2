@@ -8,16 +8,16 @@ import Practica.Alarma;
 
 public class Colector {
 	private double flujo;
-	private ArrayList<Double> contaminantes;
+	private ArrayList<Double> cantidadContaminantes;
+	private ArrayList<Double> concentracionContaminantes;
+	private ArrayList<Empresa> empresas;
 
-	private TreeMap<String, ColectorSecundario> colectorSec = new TreeMap<String, ColectorSecundario>();
-
-
-	public Colector(String colector, double flujo, ArrayList<Double> contaminantes){
+	public Colector(double flujo, ArrayList<Double> cantidadContaminantes, ArrayList<Double> concentracionContaminantes, Empresa empresa){
 		this.flujo +=flujo;
-		this.contaminantes = contaminantes;
-		colectorSec.put(colector, new ColectorSecundario(flujo, contaminantes));
-
+		this.cantidadContaminantes=cantidadContaminantes;
+		this.concentracionContaminantes=concentracionContaminantes;
+		empresas = new ArrayList<Empresa>();
+		empresas.add(empresa);
 	}
 
 	public Colector() {
@@ -32,31 +32,14 @@ public class Colector {
 		this.flujo = flujo;
 	}
 
-	public ArrayList<Double> getContaminantes() {
-		return contaminantes;
-	}
-
-	public void setContaminantes(ArrayList<Double> contaminantes) {
-		this.contaminantes = contaminantes;
+	public void addEmpresa(Empresa empresa){
+		empresas.add(empresa);
 	}
 
 	public String toString(){
 		String result = "Flujo: "+this.flujo+"\n";
 
-		for(int i = 0; i < contaminantes.size(); i++){
-			result += "Contaminante "+i+": "+contaminantes.get(i);
-			if(i<contaminantes.size()-1)
-				result+="\n";
-		}
 
 		return result;
-	}
-
-	public TreeMap<String, ColectorSecundario> getColectorSec() {
-		return colectorSec;
-	}
-
-	public void setColectorSec(TreeMap<String, ColectorSecundario> colectorSec) {
-		this.colectorSec = colectorSec;
 	}
 }

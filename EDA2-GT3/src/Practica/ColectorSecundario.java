@@ -5,16 +5,16 @@ import java.util.TreeMap;
 
 public class ColectorSecundario extends Colector{
 
-//	private ArrayList<Empresa> empresas = new ArrayList<Empresa>();
+	//private ArrayList<Empresa> empresas = new ArrayList<Empresa>();
 	private TreeMap<String, Empresa> empresas = new TreeMap<String, Empresa>();
 
 
 	public ColectorSecundario(){
-		super();
+		//super();
 	}
 
 	public ColectorSecundario(double flujo, ArrayList<Double> contaminantes) {
-		super("",flujo, contaminantes);
+		//super("",flujo, contaminantes);
 	}
 
 	public void addEmpresa(Empresa empresa){
