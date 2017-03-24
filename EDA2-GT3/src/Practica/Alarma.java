@@ -26,7 +26,9 @@ public class Alarma {
 			return "No hay riesgo de contaminación";
 
 		return result;
-
 	}
 
+	public String toString(){
+		return "Limites críticos: "+limiteCritico.toString()+"\nLimites de desvio: "+limiteDesvio.toString();
+	}
 }

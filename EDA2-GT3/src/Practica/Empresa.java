@@ -22,7 +22,7 @@ public class Empresa{
 
 	public Empresa(String nombre, String direccionVertido, double flujo, ArrayList<Double> concentracion){
 		this.nombre=nombre;
-		this.direccionVertido = direccionVertido.equals("R") ? true: false;
+		this.direccionVertido = direccionVertido.equalsIgnoreCase("R") ? true: false;
 		this.flujo=flujo;
 		this.concentracionContaminantes=concentracion;
 		this.cantidadContaminantes=new ArrayList<Double>();
