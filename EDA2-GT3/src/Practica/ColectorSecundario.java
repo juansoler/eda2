@@ -10,7 +10,7 @@ public class ColectorSecundario extends Colector{
 
 
 	public ColectorSecundario(){
-		super();
+		super("");
 	}
 
 
@@ -18,8 +18,8 @@ public class ColectorSecundario extends Colector{
 		empresas.put(empresa.getNombre(), empresa);
 	}
 
-	public TreeMap<String, Empresa> getEmpresas() {
-		return empresas;
+	public ArrayList<Empresa> getEmpresas() {
+		return null;
 	}
 
 	public void setEmpresas(TreeMap<String, Empresa> empresas) {

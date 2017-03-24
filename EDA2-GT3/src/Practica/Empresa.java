@@ -2,7 +2,7 @@ package Practica;
 
 import java.util.ArrayList;
 
-public class Empresa {
+public class Empresa{
 
 	private String nombre;
 	private boolean direccionVertido;
@@ -93,6 +93,10 @@ public class Empresa {
 
 	public void setConcentracionContaminantes(ArrayList<Double> concentracionContaminantes) {
 		this.concentracionContaminantes = concentracionContaminantes;
+	}
+
+	public int compareTo(Empresa other) {
+		return this.nombre.compareTo(other.nombre);
 	}
 
 }

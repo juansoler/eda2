@@ -9,9 +9,9 @@ import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class Main {
+public class MainTreeMap {
 	public static Empresa[][] matrizEmpresas = null;
-	public static ArrayList<ArrayList<Colector>> colectores;
+	public static TreeMap<Colector,ArrayList<Colector>> colectores;
 
 	public static void main(String[] args) {
 		String directorioEntrada = "";
@@ -37,12 +37,14 @@ public class Main {
 
 		cargarColectores();
 
-		for(int i = 0; i < colectores.size();i++){
-			for (int j = 0; j < colectores.get(i).size();j++){
-				System.out.print(colectores.get(i).get(j)+"\t  ");
-			}
-			System.out.println();
-		}
+		for(ArrayList<Colector> col: colectores.values())
+			System.out.println(col.toString());
+		
+		for(Entry<Colector, ArrayList<Colector>> col : colectores.entrySet())
+			System.out.println(col.getKey().toString()+":\t"+col.getValue().toString());
+		
+		for(Colector col: colectores.keySet())
+			System.out.println(col.getUbicacion()+" Empresas:\n"+col.mostrarEmpresas());
 	}
 
 	public static void loadFile(String file) {
@@ -119,7 +121,7 @@ public class Main {
 	}
 
 	public static void inicializarColectores(){
-		colectores = new ArrayList<ArrayList<Colector>>();
+		colectores = new TreeMap<Colector,ArrayList<Colector>>();
 		Colector auxCol = null;
 		ArrayList<Colector> auxArray = new ArrayList<Colector>();
 
@@ -129,55 +131,41 @@ public class Main {
 				auxCol = new Colector("F"+j+"C"+i);
 				auxArray.add(auxCol);
 			}
-			colectores.add(auxArray);
+			auxCol = new Colector("A"+i);
+			colectores.put(auxCol, auxArray);
 		}
 	}
 
 	public static void cargarColectores(){
 		Empresa emp = null;
-		Colector auxCol = null;
-		Colector actual = null;
-
-//		for(int j = matrizEmpresas[0].length-1; j >= 0;j--){
-//			for(int i = 0; i < matrizEmpresas.length; i++){
-//				emp = matrizEmpresas[i][j];
-//				if(emp.isDireccionVertido()){
-//					auxCol = colectores.get(i).get(j+1);
-//					colectores.get(i).get(j+1).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
-//				}else{
-//					colectores.get(i).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
-//				}
-//			}
-//		}
-
-
+		Colector avenida = null;
 
 		for(int i = matrizEmpresas[0].length-1; i >= 0; i--){
 			for(int j = 0; j < matrizEmpresas.length; j++){
 				emp = matrizEmpresas[j][i];
-				//System.out.println(emp.toString());
-				if(emp.isDireccionVertido()){
-					auxCol = colectores.get(i+1).get(j);
-					colectores.get(i+1).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
-				}else{
-					colectores.get(i).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
-				}
-			}
-		}
-		System.out.println("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+				if(emp.isDireccionVertido())
+					avenida = new Colector("A"+(i+1));
+				else
+					avenida = new Colector("A"+(i));
 
-		for(int i = 0; i < colectores.size();i++){
-			for (int j = 0; j < colectores.get(i).size();j++){
-				System.out.print(colectores.get(i).get(j)+"\t  ");
+				colectores.get(avenida).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
 			}
-			System.out.println();
 		}
-		System.out.println("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
 
 		//System.out.println("\n\n"+colectores.get(0).toString());
-		//for(ArrayList<Colector> colec:colectores)
-		//	organizarColectores(colec);
+		for(ArrayList<Colector> colec:colectores.values())
+			organizarColectores(colec);
+		
+		
+		
+		for(Entry<Colector, ArrayList<Colector>> col:colectores.entrySet()){
+			Avenida(col.getKey(), col.getValue());
+		}
 
+		for(int i = colectores.size()-1; i > 0; i--){
+			System.out.println("Colector inferior: "+colectores.ceilingKey(new Colector("A"+(i-1))).toString());
+			sumarAvenida(colectores.ceilingKey(new Colector("A"+(i-1))),colectores.ceilingKey(new Colector("A"+i)));
+		}
 	}
 
 	public static void organizarColectores(ArrayList<Colector> colector){
@@ -207,7 +195,16 @@ public class Main {
 			}
 		}
 	}
-
+	
+	private static void Avenida(Colector colector, ArrayList<Colector> colectores){
+		colector.sumarDatos(colectores.get(colectores.size()/2-1));
+		colector.sumarDatos(colectores.get(colectores.size()/2));
+	}
+	
+	private static void sumarAvenida(Colector col1, Colector col2){
+		col1.sumarDatos(col2);
+	}
+	
 	private static void sumarContaminantes(Colector colector, Empresa empresa){
 		if(empresa.getCantidadContaminantes().size()>0){
 			System.out.println(empresa.getFlujo()+colector.getFlujo());

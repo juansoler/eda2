@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 
-public class Colector {
+public class Colector implements Comparable<Colector>{
 	private double flujo;
 	private boolean habilitado;
 	private String ubicacion;
@@ -14,16 +14,16 @@ public class Colector {
 
 	public Colector(String ubicacion){
 		this.ubicacion=ubicacion;
-		setHabilitado(false);
-		setCantidadContaminantes(new ArrayList<Double>());
-		setConcentracionContaminantes(new ArrayList<Double>());
-		empresas=new ArrayList<Empresa>();
+		this.habilitado=false;
+		this.cantidadContaminantes = new ArrayList<Double>();
+		this.concentracionContaminantes=new ArrayList<Double>();
+		this.empresas=new ArrayList<Empresa>();
 	}
 
 	public Colector(double flujo, ArrayList<Double> cantidadContaminantes, ArrayList<Double> concentracionContaminantes, Empresa empresa){
 		this.flujo +=flujo;
-		this.setCantidadContaminantes(cantidadContaminantes);
-		this.setConcentracionContaminantes(concentracionContaminantes);
+		this.cantidadContaminantes=cantidadContaminantes;
+		this.concentracionContaminantes=concentracionContaminantes;
 		empresas = new ArrayList<Empresa>();
 		empresas.add(empresa);
 	}
@@ -41,6 +41,25 @@ public class Colector {
 		}
 	}
 
+	public void sumarDatos(Colector colector){
+		this.flujo+=colector.flujo;
+
+		for(int i = 0; i < cantidadContaminantes.size();i++)
+			this.cantidadContaminantes.set(i,(this.cantidadContaminantes.get(i)+colector.cantidadContaminantes.get(i)));
+
+		for(int i = 0; i < concentracionContaminantes.size();i++)
+			this.concentracionContaminantes.set(i,(this.concentracionContaminantes.get(i)+colector.concentracionContaminantes.get(i)));
+
+		this.empresas.addAll(colector.empresas);
+	}
+
+	public String mostrarEmpresas(){
+		String result = "";
+		for(Empresa emp: empresas)
+			result+=emp.toString()+"\n";
+
+		return result;
+	}
 	public String getUbicacion() {
 		return ubicacion;
 	}
@@ -76,6 +95,10 @@ public class Colector {
 
 	public void addEmpresa(Empresa empresa){
 		empresas.add(empresa);
+	}
+
+	public int compareTo(Colector other){
+		return this.ubicacion.compareTo(other.ubicacion);
 	}
 
 	public String toString(){
