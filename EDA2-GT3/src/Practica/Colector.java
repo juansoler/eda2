@@ -9,46 +9,42 @@ public class Colector implements Comparable<Colector>{
 	private boolean habilitado;
 	private String ubicacion;
 	private ArrayList<Double> cantidadContaminantes;
-	private ArrayList<Double> concentracionContaminantes;
 	private ArrayList<Empresa> empresas;
 
 	public Colector(String ubicacion){
 		this.ubicacion=ubicacion;
 		this.habilitado=false;
 		this.cantidadContaminantes = new ArrayList<Double>();
-		this.concentracionContaminantes=new ArrayList<Double>();
 		this.empresas=new ArrayList<Empresa>();
 	}
 
-	public Colector(double flujo, ArrayList<Double> cantidadContaminantes, ArrayList<Double> concentracionContaminantes, Empresa empresa){
+	public Colector(double flujo, ArrayList<Double> cantidadContaminantes, Empresa empresa){
 		this.flujo +=flujo;
 		this.cantidadContaminantes=cantidadContaminantes;
-		this.concentracionContaminantes=concentracionContaminantes;
 		empresas = new ArrayList<Empresa>();
 		empresas.add(empresa);
 	}
 
-	public void establecerDatos(double flujo, ArrayList<Double> cantidadContaminantes, ArrayList<Double> concentracionContaminantes, Empresa empresa){
+	public void establecerDatos(double flujo, ArrayList<Double> cantidadContaminantes, Empresa empresa){
 		if(!habilitado){
 			this.flujo=flujo;
 			this.cantidadContaminantes=cantidadContaminantes;
-			this.concentracionContaminantes=concentracionContaminantes;
 			this.empresas.add(empresa);
 			this.habilitado=true;
 		}else{
 			this.flujo+=flujo;
-			sumarContaminantes(cantidadContaminantes, concentracionContaminantes);
+			sumarContaminantes(cantidadContaminantes);
 		}
 	}
 
 	public void sumarDatos(Colector colector){
 		this.flujo+=colector.flujo;
 
-		for(int i = 0; i < cantidadContaminantes.size();i++)
-			this.cantidadContaminantes.set(i,(this.cantidadContaminantes.get(i)+colector.cantidadContaminantes.get(i)));
-
-		for(int i = 0; i < concentracionContaminantes.size();i++)
-			this.concentracionContaminantes.set(i,(this.concentracionContaminantes.get(i)+colector.concentracionContaminantes.get(i)));
+		if(cantidadContaminantes.size()==0)
+			this.cantidadContaminantes=colector.getCantidadContaminantes();
+		else
+			for(int i = 0; i < cantidadContaminantes.size();i++)
+				this.cantidadContaminantes.set(i,(this.cantidadContaminantes.get(i)+colector.cantidadContaminantes.get(i)));
 
 		this.empresas.addAll(colector.empresas);
 	}
@@ -60,6 +56,16 @@ public class Colector implements Comparable<Colector>{
 
 		return result;
 	}
+
+	public String toString(){
+		return "Colector: "+this.ubicacion+" Flujo: "+this.flujo+", Contaminantes: "+cantidadContaminantes.toString();
+	}
+
+	private void sumarContaminantes(ArrayList<Double> cantidadContaminantes){
+		for(int i = 0; i < cantidadContaminantes.size();i++)
+			this.cantidadContaminantes.set(i, (cantidadContaminantes.get(i)+this.cantidadContaminantes.get(i)));
+	}
+
 	public String getUbicacion() {
 		return ubicacion;
 	}
@@ -75,15 +81,6 @@ public class Colector implements Comparable<Colector>{
 	public void setEmpresas(ArrayList<Empresa> empresas) {
 		this.empresas = empresas;
 	}
-
-	private void sumarContaminantes(ArrayList<Double> cantidadContaminantes, ArrayList<Double> concentracionContaminantes){
-		for(int i = 0; i < cantidadContaminantes.size();i++)
-			this.cantidadContaminantes.set(i, (cantidadContaminantes.get(i)+this.cantidadContaminantes.get(i)));
-
-		for(int i = 0; i < concentracionContaminantes.size();i++)
-			this.concentracionContaminantes.set(i, (concentracionContaminantes.get(i)+this.concentracionContaminantes.get(i)));
-	}
-
 
 	public double getFlujo() {
 		return flujo;
@@ -101,13 +98,6 @@ public class Colector implements Comparable<Colector>{
 		return this.ubicacion.compareTo(other.ubicacion);
 	}
 
-	public String toString(){
-		String result = "Colector: "+this.ubicacion+" Flujo: "+this.flujo;
-
-
-		return result;
-	}
-
 	public boolean getHabilitado() {
 		return habilitado;
 	}
@@ -122,13 +112,5 @@ public class Colector implements Comparable<Colector>{
 
 	public void setCantidadContaminantes(ArrayList<Double> cantidadContaminantes) {
 		this.cantidadContaminantes = cantidadContaminantes;
-	}
-
-	public ArrayList<Double> getConcentracionContaminantes() {
-		return concentracionContaminantes;
-	}
-
-	public void setConcentracionContaminantes(ArrayList<Double> concentracionContaminantes) {
-		this.concentracionContaminantes = concentracionContaminantes;
 	}
 }

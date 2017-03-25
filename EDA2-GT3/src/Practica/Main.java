@@ -1,13 +1,9 @@
 package Practica;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map.Entry;
 import java.util.Scanner;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class Main {
 	public static Empresa[][] matrizEmpresas = null;
@@ -17,8 +13,8 @@ public class Main {
 		String directorioEntrada = "";
 
 		directorioEntrada = System.getProperty("user.dir") + File.separator +
-		"src" + File.separator +
-		"Practica" + File.separator + "Empresas.txt";
+				"src" + File.separator +
+				"Practica" + File.separator + "Empresas.txt";
 		//Cargar matriz de empresas
 		loadFile(directorioEntrada);
 
@@ -28,7 +24,7 @@ public class Main {
 		//		System.out.println(emp2.toString());
 
 		//for(int i = 0; i < matrizEmpresas.length;i++)
-			//System.out.println(matrizEmpresas[i][0].toString());
+		//System.out.println(matrizEmpresas[i][0].toString());
 
 
 
@@ -105,9 +101,9 @@ public class Main {
 					//if(posFila >= avenidas)
 					//	continue;
 
-//					System.out.print("Fila: "+posFila);
-//					System.out.println("\t Columna: "+posCol);
-//					System.out.println(matrizEmpresas.length+"\t "+matrizEmpresas[0].length);
+					//					System.out.print("Fila: "+posFila);
+					//					System.out.println("\t Columna: "+posCol);
+					//					System.out.println(matrizEmpresas.length+"\t "+matrizEmpresas[0].length);
 					matrizEmpresas[posFila][posCol]= emp;
 					posCol++;
 				}
@@ -138,17 +134,17 @@ public class Main {
 		Colector auxCol = null;
 		Colector actual = null;
 
-//		for(int j = matrizEmpresas[0].length-1; j >= 0;j--){
-//			for(int i = 0; i < matrizEmpresas.length; i++){
-//				emp = matrizEmpresas[i][j];
-//				if(emp.isDireccionVertido()){
-//					auxCol = colectores.get(i).get(j+1);
-//					colectores.get(i).get(j+1).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
-//				}else{
-//					colectores.get(i).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
-//				}
-//			}
-//		}
+		//		for(int j = matrizEmpresas[0].length-1; j >= 0;j--){
+		//			for(int i = 0; i < matrizEmpresas.length; i++){
+		//				emp = matrizEmpresas[i][j];
+		//				if(emp.isDireccionVertido()){
+		//					auxCol = colectores.get(i).get(j+1);
+		//					colectores.get(i).get(j+1).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
+		//				}else{
+		//					colectores.get(i).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
+		//				}
+		//			}
+		//		}
 
 
 
@@ -156,11 +152,11 @@ public class Main {
 			for(int j = 0; j < matrizEmpresas.length; j++){
 				emp = matrizEmpresas[j][i];
 				//System.out.println(emp.toString());
-				if(emp.isDireccionVertido()){
+				if(emp.getDireccionVertido()){
 					auxCol = colectores.get(i+1).get(j);
-					colectores.get(i+1).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
+					colectores.get(i+1).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp);
 				}else{
-					colectores.get(i).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp.getConcentracionContaminantes(), emp);
+					colectores.get(i).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp);
 				}
 			}
 		}
@@ -212,16 +208,14 @@ public class Main {
 		if(empresa.getCantidadContaminantes().size()>0){
 			System.out.println(empresa.getFlujo()+colector.getFlujo());
 			empresa.setFlujo(empresa.getFlujo()+colector.getFlujo());
-		for(int i = 0; i < empresa.getCantidadContaminantes().size();i++)
-			empresa.getCantidadContaminantes().set(i, (colector.getCantidadContaminantes().get(i)+empresa.getCantidadContaminantes().get(i)));
+			for(int i = 0; i < empresa.getCantidadContaminantes().size();i++)
+				empresa.getCantidadContaminantes().set(i, (colector.getCantidadContaminantes().get(i)+empresa.getCantidadContaminantes().get(i)));
 
-		for(int i = 0; i < empresa.getConcentracionContaminantes().size();i++)
-			empresa.getConcentracionContaminantes().set(i, (colector.getConcentracionContaminantes().get(i)+empresa.getConcentracionContaminantes().get(i)));
+
+
+			System.out.println(empresa.getFlujo());
 		}
-
-		System.out.println(empresa.getFlujo());
 	}
-
 
 }
 

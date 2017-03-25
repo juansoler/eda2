@@ -12,14 +12,13 @@ public class Alarma {
 		this.limiteDesvio=limiteDesvio;
 	}
 
-	public String detectar(double flujo, ArrayList<Double> contaminantes){
+	public String detectar(Colector colector){
 		String result = "";
-		for(int i = 0; i < contaminantes.size(); i++){
-			if(contaminantes.get(i)/flujo >= limiteCritico.get(i))
-				result += "Limite crítico contaminante"+i;
-			else if(contaminantes.get(i)/flujo >= limiteDesvio.get(i))
-				result += "Limite desvio contaminante"+i;
-			result+="\n";
+		for(int i = 0; i < colector.getCantidadContaminantes().size(); i++){
+			if(colector.getCantidadContaminantes().get(i)/colector.getFlujo() >= limiteCritico.get(i))
+				result += "Limite crítico del contaminante"+i+" en el colector: "+ colector.getUbicacion()+"\n";
+			else if(colector.getCantidadContaminantes().get(i)/colector.getFlujo() >= limiteDesvio.get(i))
+				result += "Limite desvio contaminante"+i+" en el colector: "+ colector.getUbicacion()+"\n";
 		}
 
 		if(result.length()==0)

@@ -8,8 +8,6 @@ public class Empresa{
 	private boolean direccionVertido;
 	private double flujo;
 	private ArrayList<Double> cantidadContaminantes;
-	private ArrayList<Double> concentracionContaminantes;
-
 
 
 	public ArrayList<Double> getCantidadContaminantes() {
@@ -24,26 +22,9 @@ public class Empresa{
 		this.nombre=nombre;
 		this.direccionVertido = direccionVertido.equalsIgnoreCase("R") ? true: false;
 		this.flujo=flujo;
-		this.concentracionContaminantes=concentracion;
 		this.cantidadContaminantes=new ArrayList<Double>();
 		for(int i = 0; i < concentracion.size(); i++)
 			cantidadContaminantes.add(i, flujo*concentracion.get(i));
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public boolean isDireccionVertido() {
-		return direccionVertido;
-	}
-
-	public void setDireccionVertido(boolean direccionVertido) {
-		this.direccionVertido = direccionVertido;
 	}
 
 	public String calcularUbicacion(){
@@ -73,10 +54,29 @@ public class Empresa{
 		else
 			result+= ", izquierda";
 
-		result += ", flujo: "+ flujo+ ", Concentracion de contaminantes "
-		+concentracionContaminantes.toString()+ ", Cantidad de contaminantes "+cantidadContaminantes.toString();
+		result += ", flujo: "+ flujo +", Cantidad de contaminantes "+cantidadContaminantes.toString();
 		return result;
 
+	}
+
+	public int compareTo(Empresa other) {
+		return this.nombre.compareTo(other.nombre);
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public boolean getDireccionVertido() {
+		return direccionVertido;
+	}
+
+	public void setDireccionVertido(boolean direccionVertido) {
+		this.direccionVertido = direccionVertido;
 	}
 
 	public double getFlujo() {
@@ -86,17 +86,4 @@ public class Empresa{
 	public void setFlujo(double flujo) {
 		this.flujo = flujo;
 	}
-
-	public ArrayList<Double> getConcentracionContaminantes() {
-		return concentracionContaminantes;
-	}
-
-	public void setConcentracionContaminantes(ArrayList<Double> concentracionContaminantes) {
-		this.concentracionContaminantes = concentracionContaminantes;
-	}
-
-	public int compareTo(Empresa other) {
-		return this.nombre.compareTo(other.nombre);
-	}
-
 }
