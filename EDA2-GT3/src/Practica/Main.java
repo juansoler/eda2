@@ -154,9 +154,9 @@ public class Main {
 				//System.out.println(emp.toString());
 				if(emp.getDireccionVertido()){
 					auxCol = colectores.get(i+1).get(j);
-					colectores.get(i+1).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp);
+					colectores.get(i+1).get(j).establecerDatos(emp);
 				}else{
-					colectores.get(i).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp);
+					colectores.get(i).get(j).establecerDatos(emp);
 				}
 			}
 		}

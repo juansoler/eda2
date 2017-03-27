@@ -18,30 +18,17 @@ public class MainTreeMap {
 
 		directorioEntrada = System.getProperty("user.dir") + File.separator +
 				"src" + File.separator +
-				"Practica" + File.separator + "Empresas.txt";
+				"Practica" + File.separator + "Empresas25.txt";
 
 		//Cargar las estructuras utilizadas
 		loadFile(directorioEntrada);
 
-		for(Colector col:avenidaPrincipal)
-			System.out.println(alarma.detectar(col));
-
-		for(int i = 0; i < matrizEmpresas.length;i++){
-			for(int j = 0; j < matrizEmpresas[0].length; j++)
-				System.out.print(matrizEmpresas[i][j].getNombre()+"\t");
-			System.out.println();
-		}
-		//for(ArrayList<Colector> col: colectores.values())
-		//	System.out.println(col.toString());
-
-		//for(Entry<Colector, ArrayList<Colector>> col : colectores.entrySet())
-		//System.out.println(col.getKey().toString()+":\t"+col.getValue().toString());
-
-		//for(Colector col: colectores.keySet())
-			//System.out.println(col.getUbicacion()+" Empresas:\n"+col.mostrarEmpresas());
-
-		System.out.println(colectores.lastKey().toString());
-		System.out.println(colectores.lastKey().mostrarEmpresas());
+		
+		for(Entry<Colector, ArrayList<Colector>> col : colectores.entrySet())
+			System.out.println(col.getKey().getUbicacion().toString()+"    "+col.getKey().getEmpresas().toString());
+		
+		System.out.println(colectores.lastKey().getEmpresas().size());
+		//System.out.println(colectores.lastKey().mostrarEmpresas());
 	}
 
 	private static void loadFile(String file) {
@@ -90,7 +77,6 @@ public class MainTreeMap {
 					for(int i = 3; i < items.length;i++){
 						mgContaminantesPorLitro.add(Double.parseDouble(items[i]));
 					}
-
 					flujo = Double.parseDouble(items[2]);
 
 					empresa = new Empresa(items[0],items[1],flujo,mgContaminantesPorLitro);
@@ -166,27 +152,25 @@ public class MainTreeMap {
 				else
 					avenida = new Colector("A"+(i));
 
-				colectores.get(avenida).get(j).establecerDatos(emp.getFlujo(), emp.getCantidadContaminantes(), emp);
+				colectores.get(avenida).get(j).establecerDatos(emp);
 			}
 		}
 
 		for(ArrayList<Colector> colec:colectores.values())
 			organizarColectores(colec);
-
-
-
-		for(Entry<Colector, ArrayList<Colector>> col:colectores.entrySet()){
+		
+		for(Entry<Colector, ArrayList<Colector>> col:colectores.entrySet())
 			CalcularColectoresAvenida(col.getKey(), col.getValue());
-		}
-
-		for(int i = colectores.size()-1; i > 0; i--){
+		
+		for(int i = colectores.size()-1; i > 0; i--)
 			colectores.ceilingKey(new Colector("A"+(i-1))).sumarDatos(colectores.ceilingKey(new Colector("A"+i)));
-		}
+		
 	}
 
 	private static void organizarColectores(ArrayList<Colector> colector){
-		int centroInf = colectores.size()/2-1;
-		int centroSup = colectores.size()/2;
+		int centroInf = colector.size()/2-1;
+		int centroSup = colector.size()/2;
+		
 		//zona norte
 		for(int i = 0; i < centroInf; i++){
 			if(colector.get(i).getHabilitado()){
@@ -198,7 +182,7 @@ public class MainTreeMap {
 				}
 			}
 		}
-
+		
 		//zona sur
 		for(int i = colector.size()-1; i > centroSup; i--){
 			if(colector.get(i).getHabilitado()){

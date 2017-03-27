@@ -2,7 +2,7 @@ package Practica;
 
 import java.util.ArrayList;
 
-public class Empresa{
+public class Empresa implements Comparable<Empresa>{
 
 	private String nombre;
 	private boolean direccionVertido;
@@ -18,13 +18,11 @@ public class Empresa{
 		this.cantidadContaminantes = cantidadContaminantes;
 	}
 
-	public Empresa(String nombre, String direccionVertido, double flujo, ArrayList<Double> concentracion){
+	public Empresa(String nombre, String direccionVertido, double flujo, ArrayList<Double> cantidadContaminantes){
 		this.nombre=nombre;
 		this.direccionVertido = direccionVertido.equalsIgnoreCase("R") ? true: false;
 		this.flujo=flujo;
-		this.cantidadContaminantes=new ArrayList<Double>();
-		for(int i = 0; i < concentracion.size(); i++)
-			cantidadContaminantes.add(i, flujo*concentracion.get(i));
+		this.cantidadContaminantes=new ArrayList<Double>(cantidadContaminantes);
 	}
 
 	public String calcularUbicacion(){
@@ -49,12 +47,12 @@ public class Empresa{
 
 	public String toString(){
 		String result = nombre;
-		if(direccionVertido)
-			result+= ", derecha";
-		else
-			result+= ", izquierda";
-
-		result += ", flujo: "+ flujo +", Cantidad de contaminantes "+cantidadContaminantes.toString();
+//		if(direccionVertido)
+//			result+= ", derecha";
+//		else
+//			result+= ", izquierda";
+//
+//		result += ", flujo: "+ flujo +", Cantidad de contaminantes "+cantidadContaminantes.toString();
 		return result;
 
 	}
