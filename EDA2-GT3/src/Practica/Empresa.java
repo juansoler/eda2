@@ -18,11 +18,13 @@ public class Empresa implements Comparable<Empresa>{
 		this.cantidadContaminantes = cantidadContaminantes;
 	}
 
-	public Empresa(String nombre, String direccionVertido, double flujo, ArrayList<Double> cantidadContaminantes){
+	public Empresa(String nombre, String direccionVertido, double flujo, ArrayList<Double> concentracion){
 		this.nombre=nombre;
 		this.direccionVertido = direccionVertido.equalsIgnoreCase("R") ? true: false;
 		this.flujo=flujo;
-		this.cantidadContaminantes=new ArrayList<Double>(cantidadContaminantes);
+		this.cantidadContaminantes= new ArrayList<Double>();
+		for(int i = 0; i< concentracion.size();i++)
+			this.cantidadContaminantes.add(concentracion.get(i)*flujo);
 	}
 
 	public String calcularUbicacion(){

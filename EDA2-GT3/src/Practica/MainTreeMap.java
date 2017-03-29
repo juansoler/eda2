@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class MainTreeMap {
 	public static Empresa[][] matrizEmpresas = null;
-	public static TreeMap<Colector,ArrayList<Colector>> colectores;
-	public static ArrayList<Colector> avenidaPrincipal;
+	public static TreeMap<EstacionMedida,ArrayList<EstacionMedida>> EstacionesMedida;
+	public static ArrayList<EstacionMedida> avenidaPrincipal;
 	public static Alarma alarma=null;
 
 	public static void main(String[] args) {
@@ -18,16 +19,20 @@ public class MainTreeMap {
 
 		directorioEntrada = System.getProperty("user.dir") + File.separator +
 				"src" + File.separator +
-				"Practica" + File.separator + "Empresas25.txt";
+				"Practica" + File.separator + "Empresas.txt";
 
 		//Cargar las estructuras utilizadas
 		loadFile(directorioEntrada);
 
-		
-		for(Entry<Colector, ArrayList<Colector>> col : colectores.entrySet())
-			System.out.println(col.getKey().getUbicacion().toString()+"    "+col.getKey().getEmpresas().toString());
-		
-		System.out.println(colectores.lastKey().getEmpresas().size());
+
+//		for(Entry<EstacionMedida, ArrayList<EstacionMedida>> col : EstacionesMedida.entrySet()){
+//			System.out.println(col.getKey().toString());
+//			for(EstacionMedida emp: col.getValue())
+//				if(emp.getHabilitado())
+//					System.out.println(emp.toString());
+//		}
+		System.out.println(fuerzaBruta(avenidaPrincipal).toString());
+		System.out.println();
 		//System.out.println(colectores.lastKey().mostrarEmpresas());
 	}
 
@@ -108,13 +113,13 @@ public class MainTreeMap {
 				}
 			}
 
-			inicializarColectores();
+			inicializarEstacionesMedida();
 
 			//Inicia el ArrayList que contiene los datos de la avenida
-			avenidaPrincipal = new ArrayList<Colector>();
+			avenidaPrincipal = new ArrayList<EstacionMedida>();
 
-			for(Colector colectorAvenida: colectores.keySet())
-				avenidaPrincipal.add(colectorAvenida);
+			for(EstacionMedida EstacionMedidaAvenida: EstacionesMedida.keySet())
+				avenidaPrincipal.add(EstacionMedidaAvenida);
 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -122,97 +127,185 @@ public class MainTreeMap {
 		}
 	}
 
-	private static void inicializarColectores(){
-		colectores = new TreeMap<Colector,ArrayList<Colector>>();
-		Colector auxCol = null;
-		ArrayList<Colector> auxArray = new ArrayList<Colector>();
+	private static void inicializarEstacionesMedida(){
+		EstacionesMedida = new TreeMap<EstacionMedida,ArrayList<EstacionMedida>>();
+		EstacionMedida auxEstMedida = null;
+		ArrayList<EstacionMedida> auxArray = new ArrayList<EstacionMedida>();
 
 		for(int i = 0; i <= matrizEmpresas[0].length; i++){
-			auxArray = new ArrayList<Colector>();
+			auxArray = new ArrayList<EstacionMedida>();
 			for(int j = 0; j < matrizEmpresas.length; j++){
-				auxCol = new Colector("F"+j+"C"+i);
-				auxArray.add(auxCol);
+				if(j == (matrizEmpresas.length/2) || j == (matrizEmpresas.length/2-1))
+					continue;
+				auxEstMedida = new EstacionMedida("F"+j+"C"+i);
+				auxArray.add(auxEstMedida);
 			}
-			auxCol = new Colector("A"+i);
-			colectores.put(auxCol, auxArray);
+			auxEstMedida = new EstacionMedida("A"+i);
+			EstacionesMedida.put(auxEstMedida, auxArray);
 		}
 
-		cargarColectores();
+		cargarEstacionesMedida();
 	}
 
-	private static void cargarColectores(){
+	private static void cargarEstacionesMedida(){
 		Empresa emp = null;
-		Colector avenida = null;
+		EstacionMedida avenida = null;
 
 		for(int i = matrizEmpresas[0].length-1; i >= 0; i--){
 			for(int j = 0; j < matrizEmpresas.length; j++){
 				emp = matrizEmpresas[j][i];
 				if(emp.getDireccionVertido())
-					avenida = new Colector("A"+(i+1));
+					avenida = new EstacionMedida("A"+(i+1));
 				else
-					avenida = new Colector("A"+(i));
+					avenida = new EstacionMedida("A"+(i));
 
-				colectores.get(avenida).get(j).establecerDatos(emp);
+				if(j == (matrizEmpresas.length/2) || j == (matrizEmpresas.length/2-1))
+					EstacionesMedida.ceilingKey(avenida).establecerDatos(emp);
+				else{
+					if(j > matrizEmpresas.length/2)
+						EstacionesMedida.get(avenida).get(j-2).establecerDatos(emp);
+					else
+						EstacionesMedida.get(avenida).get(j).establecerDatos(emp);
+				}
 			}
 		}
 
-		for(ArrayList<Colector> colec:colectores.values())
-			organizarColectores(colec);
-		
-		for(Entry<Colector, ArrayList<Colector>> col:colectores.entrySet())
-			CalcularColectoresAvenida(col.getKey(), col.getValue());
-		
-		for(int i = colectores.size()-1; i > 0; i--)
-			colectores.ceilingKey(new Colector("A"+(i-1))).sumarDatos(colectores.ceilingKey(new Colector("A"+i)));
-		
+		for(ArrayList<EstacionMedida> estaciones:EstacionesMedida.values())
+			organizarEstacionesMedida(estaciones);
+
+		for(Entry<EstacionMedida, ArrayList<EstacionMedida>> estacionMedida:EstacionesMedida.entrySet())
+			CalcularEstacionesMedidaAvenida(estacionMedida.getKey(), estacionMedida.getValue());
+
+		for(int i = EstacionesMedida.size()-1; i > 0; i--)
+			EstacionesMedida.ceilingKey(new EstacionMedida("A"+(i-1))).sumarDatos(EstacionesMedida.ceilingKey(new EstacionMedida("A"+i)));
+
 	}
 
-	private static void organizarColectores(ArrayList<Colector> colector){
-		int centroInf = colector.size()/2-1;
-		int centroSup = colector.size()/2;
-		
+	private static void organizarEstacionesMedida(ArrayList<EstacionMedida> estacionMedida){
+		int centroInf = estacionMedida.size()/2-1;
+		int centroSup = estacionMedida.size()/2;
+
 		//zona norte
 		for(int i = 0; i < centroInf; i++){
-			if(colector.get(i).getHabilitado()){
+			if(estacionMedida.get(i).getHabilitado()){
 				for(int j = i+1;j <= centroInf; j++){
-					if(colector.get(j).getHabilitado()){
-						colector.get(j).sumarDatos(colector.get(i));
+					if(estacionMedida.get(j).getHabilitado()){
+						estacionMedida.get(j).sumarDatos(estacionMedida.get(i));
 						break;
 					}
 				}
 			}
 		}
-		
+
 		//zona sur
-		for(int i = colector.size()-1; i > centroSup; i--){
-			if(colector.get(i).getHabilitado()){
+		for(int i = estacionMedida.size()-1; i > centroSup; i--){
+			if(estacionMedida.get(i).getHabilitado()){
 				for(int j = i-1;j >= centroSup; j--)
-					if(colector.get(j).getHabilitado()){
-						colector.get(j).sumarDatos(colector.get(i));
+					if(estacionMedida.get(j).getHabilitado()){
+						estacionMedida.get(j).sumarDatos(estacionMedida.get(i));
 						break;
 					}
 			}
 		}
 	}
 
-	private static void CalcularColectoresAvenida(Colector colector, ArrayList<Colector> colectores){
-		int centroInf = colectores.size()/2-1;
-		int centroSup = colectores.size()/2;
+	private static void CalcularEstacionesMedidaAvenida(EstacionMedida estacionMedida, ArrayList<EstacionMedida> estacionesMedida){
+		int centroInf = estacionesMedida.size()/2-1;
+		int centroSup = estacionesMedida.size()/2;
 
 		while(centroInf >= 0){
-			if(colectores.get(centroInf).getHabilitado()){
-				colector.sumarDatos(colectores.get(centroInf));
+			if(estacionesMedida.get(centroInf).getHabilitado()){
+				estacionMedida.sumarDatos(estacionesMedida.get(centroInf));
 				break;
 			}
 			centroInf--;
 		}
 
-		while(centroSup < colectores.size()){
-			if(colectores.get(centroSup).getHabilitado()){
-				colector.sumarDatos(colectores.get(centroSup));
+		while(centroSup < estacionesMedida.size()){
+			if(estacionesMedida.get(centroSup).getHabilitado()){
+				estacionMedida.sumarDatos(estacionesMedida.get(centroSup));
 				break;
 			}
 			centroSup++;
 		}
 	}
+
+	public static TreeSet<String> fuerzaBruta(ArrayList<EstacionMedida> Avenida){
+		TreeSet<String> result = new TreeSet<String>();
+		ArrayList<Integer> cont = new ArrayList<Integer>();
+
+		for(int i = Avenida.size()-1; i >= 0; i--){
+			if(i == Avenida.size()-1){
+				cont = alarma.contaminantesPeligrosos(Avenida.get(i), null);
+			}else{
+				cont = alarma.contaminantesPeligrosos(Avenida.get(i), Avenida.get(i+1));
+			}
+			if(cont.size()>0){
+				result.addAll(fuerzaAux(EstacionesMedida.get(Avenida.get(i))));
+			}
+				
+		}
+		
+		return result;
+	}
+
+	private static TreeSet<String> fuerzaAux(ArrayList<EstacionMedida> est){
+		TreeSet<String> result = new TreeSet<String>();
+		System.out.println(est.get(0).getUbicacion());
+		//Zona Norte
+		for(int i = est.size()/2-1; i >= 0;i--){
+			if(est.get(i).getHabilitado()){
+				if(i == est.size()/2-1){
+					if(alarma.detectar(est.get(i),null) != null){
+						System.out.println("añade por defecto "+ est.get(i).getEmpresas().toString());
+					
+					}
+						
+				}
+				else
+					if(est.get(i+1).getHabilitado())
+						if(alarma.detectar(est.get(i), est.get(i+1))!=null)
+							result.addAll(est.get(i).getEmpresas());			
+				
+				for(int j = i-1; j >= 0;j--){
+					if(est.get(j).getHabilitado()){
+						System.out.println("1 "+est.get(j).getEmpresas().toString());
+						System.out.println("2 "+est.get(j+1).getEmpresas().toString());
+						if(alarma.detectar(est.get(j),est.get(i)) == null){
+							System.out.println("borra: "+est.get(j).getEmpresas().toString());
+							result.removeAll(est.get(j).getEmpresas());
+							break;
+						}
+					}
+				}
+					
+			}
+
+		}
+
+//		for(int i = est.size()/2; i < est.size();i++){
+//			if(i == est.size()/2){
+//				if(alarma.detectar(est.get(i), null,contaminantes) != null){
+//					result.addAll(est.get(i).getEmpresas());
+//				}
+//			}else
+//				if(alarma.detectar(est.get(i-1), est.get(i),contaminantes) != null
+//				){
+//					result.addAll(est.get(i).getEmpresas());
+//					//System.out.println(alarma.detectar(est.get(i)).toString());
+//					//System.out.println(est.get(i).toString());
+//					//System.out.println(result.toString());
+//					for(int j = i; j < est.size(); j++)
+//						if(alarma.detectar(est.get(j), est.get(i),contaminantes).length()==0){
+//							//System.out.println("Aqui "+est.get(j).toString());
+//							result.removeAll(est.get(j).getEmpresas());
+//						}
+//
+//					//System.out.println(result.toString());
+//					//System.out.println(est.get(i).toString()+"Tus mueros "+est.get(i).getEmpresas().toString());
+//				}
+//		}
+		return result;
+	}
+
 }

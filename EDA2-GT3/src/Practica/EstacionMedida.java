@@ -4,23 +4,24 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 
-public class EstacionBombeo implements Comparable<EstacionBombeo>{
+public class EstacionMedida implements Comparable<EstacionMedida>{
 	private double flujo;
 	private boolean habilitado;
 	private String ubicacion;
 	private ArrayList<Double> cantidadContaminantes;
 	private TreeSet<String> empresas;
 
-	public EstacionBombeo(String ubicacion){
+	public EstacionMedida(String ubicacion){
 		this.ubicacion=ubicacion;
 		this.habilitado=false;
 		this.cantidadContaminantes = new ArrayList<Double>();
 		this.empresas=new TreeSet<String>();
 	}
 
-	public EstacionBombeo(double flujo, ArrayList<Double> cantidadContaminantes, Empresa empresa){
+	public EstacionMedida(double flujo, ArrayList<Double> cantidadContaminantes, Empresa empresa){
 		this.flujo +=flujo;
-		this.cantidadContaminantes=cantidadContaminantes;
+		for(int i = 0; i< cantidadContaminantes.size();i++)
+			this.cantidadContaminantes.set(i,cantidadContaminantes.get(i)*flujo);
 		empresas = new TreeSet<String>();
 		empresas.add(empresa.getNombre());
 	}
@@ -38,16 +39,16 @@ public class EstacionBombeo implements Comparable<EstacionBombeo>{
 		this.empresas.add(empresa.getNombre());
 	}
 
-	public void sumarDatos(EstacionBombeo estacionBombeo){
-		this.flujo+=estacionBombeo.flujo;
+	public void sumarDatos(EstacionMedida estacionMedida){
+		this.flujo+=estacionMedida.flujo;
 
 		if(this.cantidadContaminantes.size()==0)
-			this.cantidadContaminantes=estacionBombeo.getCantidadContaminantes();
+			this.cantidadContaminantes=estacionMedida.getCantidadContaminantes();
 		else
-			for(int i = 0; i < estacionBombeo.getCantidadContaminantes().size(); i++)
-				this.cantidadContaminantes.set(i,(this.cantidadContaminantes.get(i)+estacionBombeo.cantidadContaminantes.get(i)));
+			for(int i = 0; i < estacionMedida.getCantidadContaminantes().size(); i++)
+				this.cantidadContaminantes.set(i,(this.cantidadContaminantes.get(i)+estacionMedida.cantidadContaminantes.get(i)));
 
-		this.empresas.addAll(estacionBombeo.empresas);
+		this.empresas.addAll(estacionMedida.empresas);
 	}
 
 	public String mostrarEmpresas(){
@@ -59,7 +60,7 @@ public class EstacionBombeo implements Comparable<EstacionBombeo>{
 	}
 
 	public String toString(){
-		return "estacionBombeo: "+this.ubicacion+" Flujo: "+this.flujo+", Contaminantes: "+cantidadContaminantes.toString();
+		return "Estacion de Medida: "+this.ubicacion+" Flujo: "+this.flujo+", Contaminantes: "+cantidadContaminantes.toString()+" empresas: "+this.empresas.toString();
 	}
 
 	private void sumarContaminantes(ArrayList<Double> cantidadContaminantes){
@@ -91,7 +92,7 @@ public class EstacionBombeo implements Comparable<EstacionBombeo>{
 		this.flujo = flujo;
 	}
 
-	public int compareTo(EstacionBombeo other){
+	public int compareTo(EstacionMedida other){
 		return this.ubicacion.compareTo(other.ubicacion);
 	}
 
