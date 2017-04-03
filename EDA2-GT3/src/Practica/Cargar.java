@@ -222,7 +222,7 @@ public class Cargar {
 
 
 	}
-
+//
 	private static void FuerzaBrutaCalle(Sensor[][] matriz, int columna){
 		Sensor sensorCalle = null;
 		for(int i = 0; i < matriz.length;i++){

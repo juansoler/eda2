@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Alarma {
 
 	private HashMap<String, Double[]> limites;
-
+//
 	public Alarma(String nCont, Double[] limites){
 		this.limites = new HashMap<String, Double[]>();
 		this.limites.put(nCont, limites);

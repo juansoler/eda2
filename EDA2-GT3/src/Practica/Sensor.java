@@ -17,7 +17,7 @@ public class Sensor {
 //
 //	public void setLimites(HashMap<Integer, Integer> limites) {
 //		this.limites = limites;
-//	}
+//	}//
 
 	public Sensor(){
 		concentracion= new HashMap<String,Double>();
