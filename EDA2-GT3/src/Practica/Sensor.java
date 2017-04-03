@@ -2,6 +2,7 @@ package Practica;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map.Entry;
 
 public class Sensor {
@@ -19,7 +20,7 @@ public class Sensor {
 //	}
 
 	public Sensor(){
-
+		concentracion= new HashMap<String,Double>();
 	}
 
 	public Sensor(String nombre, Double flujo, HashMap<String,Double> concentracion){
@@ -29,6 +30,9 @@ public class Sensor {
 		//limites = new HashMap<Integer,Integer>();
 	}
 
+	public void addContaminantes(String contaminante, Double cantidad){
+		this.concentracion.put(contaminante, cantidad);
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -64,5 +68,16 @@ public class Sensor {
 			}
 		}
 		return 0;
+	}
+
+	public HashSet<String> determinarContaminantes(Alarma alarm){
+		HashSet<String> result = new HashSet<String>();
+		for (Entry<String, Double> it : this.concentracion.entrySet()) {
+			Double[] nivel = alarm.getLimites().get(it.getKey());
+			if(it.getValue()>=nivel[1]){
+				result.add(it.getKey());
+			}
+		}
+		return result.size()==0?null:result;
 	}
 }
