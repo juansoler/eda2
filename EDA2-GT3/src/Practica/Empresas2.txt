@@ -2,7 +2,7 @@
 5
 
 @Calles
-7
+6
 
 @MatrizSensores
 CN1 CN2 CN3 CN4 CN5 CN6 CN7
@@ -17,7 +17,7 @@ Contaminante2 0.7 1
 Contaminante3 0.7 1
 
 @Empresas
-CN 1 l 1 0.1 0.1 0.1
+CN 1 l 1 0.1 0.1 500
 CN 2 r 1 0.1 0.1 0.1
 CN 3 r 1 0.1 0.1 0.1
 CN 4 r 1 0.1 0.1 0.1

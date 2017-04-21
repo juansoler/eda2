@@ -115,7 +115,7 @@ public class Sensor implements Comparable<Sensor>{
 			if(this.concentracion.get(cont.getKey()) >= nivel[1])
 				return 2;
 			else if(this.concentracion.get(cont.getKey()) >= nivel[0])
-				return 2;
+				return 1;
 		}
 
 		return 0;
