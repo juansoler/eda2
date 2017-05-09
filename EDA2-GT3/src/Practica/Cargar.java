@@ -33,7 +33,6 @@ public class Cargar {
 				}else if (line.startsWith("@Calle")) {
 					nCalles = Integer.parseInt(sc.nextLine())+1;
 					matrizSensores = new Sensor[nAvenidas][nCalles];
-					System.out.println(nAvenidas+"avenidas, calles"+nCalles);
 				}else if(line.startsWith("@MatrizSensores")){
 					leerLimites = false;
 					leerEmpresas = false;
@@ -94,7 +93,6 @@ public class Cargar {
 						posFila = (matrizSensores.length/2);
 
 					aux = matrizSensores[posFila][posicion];
-					System.out.println(items[0]+items[1]+" "+items[2]+" ----> "+matrizSensores[matrizSensores.length-1][matrizSensores[0].length-1].getNombre());
 					sensorEmpresas.get(aux.getNombre()).add(items[0]+items[1]);
 
 					for(int i = 4, cont = 1; i < items.length;i++, cont++)

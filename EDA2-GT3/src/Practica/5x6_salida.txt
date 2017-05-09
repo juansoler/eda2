@@ -1,0 +1,46 @@
+***************************************************
+***************************************************
+Metodo elegido Greedy1 v2
+
+***************************************************
+***************************************************
+Se activa desvio a la balsa 
+Tiempo máximo de desvio 0 segundos
+Se tienen que cerrar las empresas que vierten a la calle 1
+El devio se encuentra activo, aun puede estar activado: 0 segundos
+Se tienen que cerrar las empresas que vierten a la calle 2
+El devio se encuentra activo, aun puede estar activado: 0 segundos
+Se tienen que cerrar las empresas que vierten a la calle 3
+El devio se encuentra activo, aun puede estar activado: 0 segundos
+Se tienen que cerrar las empresas que vierten a la calle 4
+Se cancela el desvío, se cierran las zonas sin explorar
+Se tienen que cerrar las empresas que vierten a la calle 5
+
+Se tienen que cerrar las empresas que vierten a la calle 6
+Pueden trabajar las empresas que vierten a partir de la calle7
+Sensor correcto a partir de: BN1
+Sensor correcto: BS1
+Problema en sensor: CS1
+Sensor correcto: A1
+Sensor correcto: BN2
+Problema en sensor: CN2
+Sensor correcto a partir de: BS2
+Sensor correcto: A2
+Sensor correcto: BN3
+Problema en sensor: CN3
+Sensor correcto a partir de: BS3
+Sensor correcto: A3
+Sensor correcto: BN4
+Problema en sensor: CN4
+Sensor correcto a partir de: BS4
+Sensor correcto: A4
+Sensor correcto: BN5
+Problema en sensor: CN5
+Sensor correcto a partir de: BS5
+Sensor correcto: A5
+Sensor correcto: BN6
+Problema en sensor: CN6
+Sensor correcto: BS6
+Problema en sensor: CS6
+Sensor correcto: A6
+[DS1, CN2, DS6, CN4, CN3, CN6, CN5]

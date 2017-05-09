@@ -1,0 +1,70 @@
+***************************************************
+***************************************************
+Metodo elegido FuerzaBrutav1
+
+***************************************************
+***************************************************
+SENSOR CORRECTO DN1
+INFRACCION EN SENSOR DN2
+Las empresas culpables son: [DN1]
+INFRACCION EN SENSOR DN3
+Las empresas culpables son: [DN3, DN2]
+INFRACCION EN SENSOR DN4
+Las empresas culpables son: [DN4]
+INFRACCION EN SENSOR DN5
+Las empresas culpables son: [DN5]
+SENSOR CORRECTO DN6
+SENSOR CORRECTO DN7
+SENSOR CORRECTO CN1
+INFRACCION EN SENSOR CN2
+Las empresas culpables son: [CN2]
+INFRACCION EN SENSOR CN3
+Las empresas culpables son: []
+INFRACCION EN SENSOR CN4
+Las empresas culpables son: [CN3]
+INFRACCION EN SENSOR CN5
+Las empresas culpables son: [CN4, CN5]
+SENSOR CORRECTO CN6
+SENSOR CORRECTO CN7
+SENSOR CORRECTO BN1
+INFRACCION EN SENSOR BN2
+Las empresas culpables son: [BN1]
+INFRACCION EN SENSOR BN3
+Las empresas culpables son: [BN3, BN2]
+INFRACCION EN SENSOR BN4
+Las empresas culpables son: [BN4]
+INFRACCION EN SENSOR BN5
+Las empresas culpables son: [BN5]
+SENSOR CORRECTO BN6
+SENSOR CORRECTO BN7
+INFRACCION EN SENSOR A1
+Las empresas culpables son: [A1, BS1]
+INFRACCION EN SENSOR A2
+Las empresas culpables son: []
+INFRACCION EN SENSOR A3
+Las empresas culpables son: [BS2, A2]
+INFRACCION EN SENSOR A4
+Las empresas culpables son: [A3, BS3]
+INFRACCION EN SENSOR A5
+Las empresas culpables son: [BS4, A4, BS5]
+INFRACCION EN SENSOR A6
+Las empresas culpables son: [A5]
+SENSOR CORRECTO A7
+INFRACCION EN SENSOR BS1
+Las empresas culpables son: [CS1]
+SENSOR CORRECTO BS2
+SENSOR CORRECTO BS3
+SENSOR CORRECTO BS4
+SENSOR CORRECTO BS5
+INFRACCION EN SENSOR BS6
+Las empresas culpables son: [CS5, CS6]
+SENSOR CORRECTO BS7
+INFRACCION EN SENSOR CS1
+Las empresas culpables son: [DS1]
+SENSOR CORRECTO CS2
+SENSOR CORRECTO CS3
+SENSOR CORRECTO CS4
+SENSOR CORRECTO CS5
+INFRACCION EN SENSOR CS6
+Las empresas culpables son: [DS6]
+SENSOR CORRECTO CS7
