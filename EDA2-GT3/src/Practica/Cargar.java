@@ -8,8 +8,7 @@ import java.util.Scanner;
 
 public class Cargar {
 
-	//@SuppressWarnings("unused")
-	public static Sensor[][] loadFile(String file, HashMap<String, HashSet<String>> sensorEmpresas, HashMap<String, Double[]> limitesDep) {
+		public static Sensor[][] loadFile(String file, HashMap<String, HashSet<String>> sensorEmpresas, HashMap<String, Double[]> limitesDep) {
 		Sensor[][] matrizSensores = null;
 		Scanner sc = null;
 		boolean leerLimites = false, leerEmpresas = false, maSensores = false;

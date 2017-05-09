@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 public class Depuradora {
 
@@ -14,6 +15,7 @@ public class Depuradora {
 	private static HashMap<String, Double[]> limitesSuperados = new HashMap<String, Double[]>();
 	private static HashSet<String> empresasCulpables = new HashSet<String>();
 	private static HashSet<String> zonaGris = new HashSet<String>();
+	private static HashMap<String, TreeSet<String>> greedy2v2 = new HashMap<String, TreeSet<String>>();
 	public static Balsa balsa = new Balsa(1.50);
 	private static long tiempoInicio = 0;
 	private static long tiempoActual = 0;
@@ -27,7 +29,7 @@ public class Depuradora {
 
 		directorioEntrada = System.getProperty("user.dir") + File.separator +
 				"src" + File.separator +
-				"Practica" + File.separator + "Empresas2.txt";
+				"Practica" + File.separator + "Empresas12.txt";
 
 		//Cargar las estructuras utilizadas
 		matrizSensores = Cargar.loadFile(directorioEntrada, sensorEmpresas, limites);
@@ -48,13 +50,14 @@ public class Depuradora {
 		int opcion = 0;
 		do{
 			System.out.println("Seleccione la opción deseada: ");
-			System.out.println("FuerzaBrutav1: 0  //  FuerzaBrutav2:1  //  DYVv1: 2  //  DYVv2: 3  //  DYVv3: 4  //  Greedyv1: 5  //  Greedy1v2: 6  //  Greedy2v1: 7");
+			System.out.println("FuerzaBrutav1: 0  //  FuerzaBrutav2: 1  //  FuerzaBrutav3: 2  //  DYVv1: 3  //  DYVv2: 4  //  DYVv3: 5");
+			System.out.println("DYVv4: 6  //  Greedy1v1: 7  //  Greedy1v2: 8  //  Greedy1v3: 9  //  Greedy2v1: 10  //  Greedy2v2: 11");
 			try{
 				opcion = entrada.nextInt();
 			}catch(Exception e){
 				System.out.println("Has introducido un valor incorrecto");
 			}
-		}while(opcion < 0 || opcion > 7);
+		}while(opcion < 0 || opcion > 11);
 
 
 		switch(opcion){
@@ -62,17 +65,27 @@ public class Depuradora {
 		break;
 		case 1: FuerzaBrutav2();
 		break;
-		case 2: DYVv1();
+		case 2: FuerzaBrutav3();
 		break;
-		case 3: DYVv2();
+		case 3: DYVv1();
 		break;
-		case 4: DYVv3();
+		case 4: DYVv2();
 		break;
-		case 5: Greedy1v1();
+		case 5: DYVv3();
 		break;
-		case 6: Greedy1v2();
+		case 6: DYVv4();
 		break;
-		case 7: Greedy2v1();
+		case 7: Greedy1v1();
+		break;
+		case 8: Greedy1v2();
+		break;
+		case 9: Greedy1v3();
+		break;
+		case 10: Greedy2v1();
+		break;
+		case 11: Greedy2v2();
+		for(Entry<String, TreeSet<String>> it:greedy2v2.entrySet())
+			System.out.println(it.getKey()+" "+it.getValue().toString());
 		break;
 		}
 
@@ -116,7 +129,7 @@ public class Depuradora {
 			for (int i = 0; i < medio; i++){
 				sensorMedida = resultado = matrizSensores[i][j];
 				if(i != 0)
-					resultado = restarEstacionesConTodosContaminantes(resultado, matrizSensores[i-1][j]);
+					resultado = restarEstaciones(resultado, matrizSensores[i-1][j]);
 
 				comprobar = resultado.comprobarEstado(limitesSuperados);
 				if(comprobar == 0){
@@ -134,10 +147,10 @@ public class Depuradora {
 			for (int i = matrizSensores.length-1; i > medio; i--){
 				sensorMedida = resultado = matrizSensores[i][j];
 				if(i != matrizSensores.length-1)
-					resultado = restarEstacionesConTodosContaminantes(resultado, matrizSensores[i+1][j]);
+					resultado = restarEstaciones(resultado, matrizSensores[i+1][j]);
 
 				comprobar = resultado.comprobarEstado(limitesSuperados);
-				
+
 				if(comprobar == 0){
 					System.out.println("SENSOR CORRECTO "+sensorMedida.getNombre());
 				}else{
@@ -151,16 +164,16 @@ public class Depuradora {
 			//Comprueba la Avenida
 			sensorMedida = resultado = matrizSensores[medio][j];
 			if(j != matrizSensores[medio].length-1)
-				resultado = restarEstacionesConTodosContaminantes(resultado, matrizSensores[medio][j+1]);
+				resultado = restarEstaciones(resultado, matrizSensores[medio][j+1]);
 
 			//Restamos zona norte
-			resultado = restarEstacionesConTodosContaminantes(resultado, matrizSensores[medio-1][j]);
+			resultado = restarEstaciones(resultado, matrizSensores[medio-1][j]);
 
 			//Restamos zona sur
-			resultado = restarEstacionesConTodosContaminantes(resultado, matrizSensores[medio+1][j]);
+			resultado = restarEstaciones(resultado, matrizSensores[medio+1][j]);
 
 			comprobar = resultado.comprobarEstado(limitesSuperados);
-			
+
 			if(comprobar == 0){
 				System.out.println("SENSOR CORRECTO "+sensorMedida.getNombre());
 			}else{
@@ -174,8 +187,95 @@ public class Depuradora {
 	}
 
 
+	private static void FuerzaBrutav3(){
+		int medio = matrizSensores.length/2, comprobar;
+		Sensor resultado = new Sensor();
+		Sensor sensorMedida = new Sensor();
+
+		//Comprueba la Zona norte
+		for(int j = 0; j < matrizSensores[0].length; j++){
+
+			sensorMedida = matrizSensores[medio][j];
+			if(sensorMedida.comprobarEstado(limitesSuperados) == 0){
+				System.out.println("SENSOR CORRECTO A PARTIR DE "+sensorMedida.getNombre());
+				break;
+			}
+
+
+			for (int i = medio-1; i >= 0; i--){
+				sensorMedida = resultado = matrizSensores[i][j];
+
+				if(sensorMedida.comprobarEstado(limitesSuperados)==0){
+					System.out.println("SENSOR CORRECTO A PARTIR DE "+sensorMedida.getNombre());
+					break;
+				}
+
+				if(i != 0)
+					resultado = restarEstaciones(resultado, matrizSensores[i-1][j]);
+
+				comprobar = resultado.comprobarEstado(limitesSuperados);
+				if(comprobar == 0){
+					System.out.println("SENSOR CORRECTO "+sensorMedida.getNombre());
+				}else{
+					System.out.println("INFRACCION EN SENSOR "+sensorMedida.getNombre());
+					manejarBalsa(comprobar);
+					System.out.println("Las empresas culpables son: "+sensorEmpresas.get(sensorMedida.getNombre()));
+				}
+
+			}
+
+			//Comprueba la Zona Sur
+			for (int i = medio+1; i < matrizSensores.length; i++){
+				sensorMedida = resultado = matrizSensores[i][j];
+				if(sensorMedida.comprobarEstado(limitesSuperados)==0){
+					System.out.println("SENSOR CORRECTO A PARTIR DE "+sensorMedida.getNombre());
+					break;
+				}
+				if(i != matrizSensores.length-1)
+					resultado = restarEstaciones(resultado, matrizSensores[i+1][j]);
+
+				comprobar = resultado.comprobarEstado(limitesSuperados);
+
+				if(comprobar == 0){
+					System.out.println("SENSOR CORRECTO "+sensorMedida.getNombre());
+				}else{
+					System.out.println("INFRACCION EN SENSOR "+sensorMedida.getNombre());
+					manejarBalsa(comprobar);
+					System.out.println("Las empresas culpables son: "+sensorEmpresas.get(sensorMedida.getNombre()));
+				}
+			}
+
+
+			//Comprueba la Avenida
+			sensorMedida = resultado = matrizSensores[medio][j];
+			if(j != matrizSensores[medio].length-1)
+				resultado = restarEstaciones(resultado, matrizSensores[medio][j+1]);
+
+			//Restamos zona norte
+			resultado = restarEstaciones(resultado, matrizSensores[medio-1][j]);
+
+			//Restamos zona sur
+			resultado = restarEstaciones(resultado, matrizSensores[medio+1][j]);
+
+			comprobar = resultado.comprobarEstado(limitesSuperados);
+
+			if(comprobar == 0){
+				System.out.println("SENSOR CORRECTO "+sensorMedida.getNombre());
+			}else{
+				System.out.println("INFRACCION EN SENSOR "+sensorMedida.getNombre());
+				manejarBalsa(comprobar);
+				System.out.println("Las empresas culpables son: "+sensorEmpresas.get(sensorMedida.getNombre()));
+			}
+		}
+
+	}
+
+
 	private static void DYVv1(){
-		DyVAvenidav1(0,matrizSensores[0].length-1);
+		if(limitesSuperados.size()>0)
+			DyVAvenidav1(0,matrizSensores[0].length-1);
+		else
+			System.out.println("No hay ningún problema de contaminacion en el polígono.");
 	}
 
 	private static void DyVAvenidav1(int posInicio, int posFin) {
@@ -255,7 +355,10 @@ public class Depuradora {
 
 
 	private static void DYVv2(){
-		DyVAvenidav2(0,matrizSensores[0].length-1);
+		if(limitesSuperados.size()>0)
+			DyVAvenidav2(0,matrizSensores[0].length-1);
+		else
+			System.out.println("No hay ningún problema de contaminacion en el polígono.");
 	}
 
 
@@ -266,9 +369,9 @@ public class Depuradora {
 		}else{
 			int posMitad = (posInicio + posFin)/2;
 			Sensor sensorMitad = matrizSensores[matrizSensores.length/2][posMitad];
-			
+
 			int comprobar = sensorMitad.comprobarEstado(limitesSuperados);
-			
+
 			if(comprobar == 0){
 				System.out.println("SENSOR CORRECTO A PARTIR DE "+sensorMitad.getNombre());
 				DyVAvenidav2(posInicio, posMitad-1);
@@ -289,7 +392,7 @@ public class Depuradora {
 			//Si no es el primer sensor, le restamos el anterior
 			if(posInicio != matrizSensores.length-1)
 				aux = restarEstaciones(aux, matrizSensores[posInicio+1][columna]);
-			
+
 			int comprobar = aux.comprobarEstado(limitesSuperados);
 			if(comprobar>0){
 				System.out.println("INFRACCION EN SENSOR "+sensorInicio.getNombre());
@@ -311,7 +414,6 @@ public class Depuradora {
 				DyVCallesSurv2(posInicio, posMitad, columna);
 			}
 		}
-
 	}
 
 	private static void DyVCallesNortev2(int posInicio, int posFin, int columna) {
@@ -352,8 +454,14 @@ public class Depuradora {
 	}
 
 
+
+
+
 	private static void DYVv3(){
-		DyVAvenidav3(0,matrizSensores[0].length-1);
+		if(limitesSuperados.size()>0)
+			DyVAvenidav3(0,matrizSensores[0].length-1);
+		else
+			System.out.println("No hay ningún problema de contaminacion en el polígono.");
 	}
 
 
@@ -379,15 +487,15 @@ public class Depuradora {
 
 	private static void DyVCallesv3(int posInicio, int posFin, int columna) {
 		//True zona norte, false zona sur
-		boolean calle;
+		boolean calleN;
 		int comprobar;
 
 		if(posInicio <= matrizSensores.length/2)
-			calle = true;
+			calleN = true;
 		else
-			calle = false;
+			calleN = false;
 
-		if(!calle){
+		if(!calleN){
 			if(posInicio>=posFin){
 				Sensor sensorInicio = matrizSensores[posInicio][columna];
 				Sensor aux = sensorInicio;
@@ -456,8 +564,131 @@ public class Depuradora {
 	}
 
 
+	private static void DYVv4(){
+		if(limitesSuperados.size()>0)
+			DyVAvenidav4(0,matrizSensores[0].length-1);
+		else
+			System.out.println("No hay ningún problema de contaminacion en el polígono.");
+	}
+
+
+	private static void DyVAvenidav4(int posInicio, int posFin) {
+		if(posInicio>=posFin){
+			Sensor aux = matrizSensores[matrizSensores.length/2-1][posInicio];
+			if(aux.comprobarEstado(limitesSuperados)!=0)
+				DyVCallesv4(matrizSensores.length/2-1, 0, posInicio);
+			else{
+				System.out.println("SENSOR CORRECTO A PARTIR DE "+aux.getNombre());
+			}
+
+			aux = matrizSensores[matrizSensores.length/2+1][posInicio];
+			if(aux.comprobarEstado(limitesSuperados) != 0)
+			DyVCallesv4(matrizSensores.length/2+1, matrizSensores.length-1, posInicio);
+			else{
+				System.out.println("SENSOR CORRECTO A PARTIR DE "+aux.getNombre());
+			}
+
+			DyVCallesv4(matrizSensores.length/2, matrizSensores.length/2, posInicio);
+		}else{
+			int posMitad = (posInicio + posFin)/2;
+			Sensor sensorMitad = matrizSensores[matrizSensores.length/2][posMitad];
+			int comprobar = sensorMitad.comprobarEstado(limitesSuperados);
+			if(comprobar==0){
+				System.out.println("SENSOR CORRECTO A PARTIR DE "+sensorMitad.getNombre());
+				DyVAvenidav4(posInicio, posMitad-1);
+			}else{
+				manejarBalsa(comprobar);
+				DyVAvenidav4(posMitad+1, posFin);
+				DyVAvenidav4(posInicio, posMitad);
+			}
+		}
+	}
+
+
+	private static void DyVCallesv4(int posInicio, int posFin, int columna) {
+		//True zona norte, false zona sur
+		boolean calleN;
+		int comprobar;
+
+		if(posInicio <= matrizSensores.length/2)
+			calleN = true;
+		else
+			calleN = false;
+
+		if(!calleN){
+			if(posInicio>=posFin){
+				Sensor sensorInicio = matrizSensores[posInicio][columna];
+				Sensor aux = sensorInicio;
+				//Si no es el primer sensor, le restamos el anterior
+				if(posInicio != matrizSensores.length-1)
+					aux = restarEstaciones(aux, matrizSensores[posInicio+1][columna]);
+
+				comprobar = aux.comprobarEstado(limitesSuperados);
+				if(comprobar>0){
+					System.out.println("INFRACCION EN SENSOR "+sensorInicio.getNombre());
+					manejarBalsa(comprobar);
+					System.out.println("Las empresas culpables son: "+sensorEmpresas.get(sensorInicio.getNombre()));
+				}else{
+					System.out.println("SENSOR CORRECTO "+sensorInicio.getNombre());
+				}
+			}else{
+				int posMitad = (posInicio + posFin)/2;
+				Sensor sensorMitad = matrizSensores[posMitad][columna];
+				comprobar = sensorMitad.comprobarEstado(limitesSuperados);
+				if(comprobar==0){
+					System.out.println("SENSOR CORRECTO A PARTIR DE "+sensorMitad.getNombre());
+					DyVCallesv4(posInicio, posMitad-1, columna);
+				}else{
+					manejarBalsa(comprobar);
+					DyVCallesv4(posMitad+1, posFin, columna);
+					DyVCallesv4(posInicio, posMitad, columna);
+				}
+			}
+		}else{
+			if(posInicio<=posFin){
+				Sensor sensorFin = matrizSensores[posFin][columna];
+				Sensor aux = sensorFin;
+				if(posFin != 0)
+					aux = restarEstaciones(aux, matrizSensores[posFin-1][columna]);
+
+				//Si estamos en la avenida la restamos el sensor anterior si no es el último
+				if(posFin == matrizSensores.length/2){
+					if(columna != matrizSensores[0].length-1)
+						aux = restarEstaciones(aux, matrizSensores[posFin][columna+1]);
+					aux = restarEstaciones(aux, matrizSensores[posFin+1][columna]);
+				}
+
+				comprobar = aux.comprobarEstado(limitesSuperados);
+				if(comprobar > 0){
+					System.out.println("INFRACCION EN SENSOR "+sensorFin.getNombre());
+					manejarBalsa(comprobar);
+					System.out.println("Las empresas culpables son: "+sensorEmpresas.get(sensorFin.getNombre()));
+				}else{
+					System.out.println("SENSOR CORRECTO "+sensorFin.getNombre());
+				}
+			}else{
+				int posMitad = (posInicio + posFin)/2;
+				Sensor sensorMitad = matrizSensores[posMitad][columna];
+				comprobar = sensorMitad.comprobarEstado(limitesSuperados);
+				if(comprobar==0){
+					System.out.println("SENSOR CORRECTO A PARTIR DE "+sensorMitad.getNombre());
+					DyVCallesv4(posInicio, posMitad+1, columna);
+				}else{
+					manejarBalsa(comprobar);
+					DyVCallesv4(posMitad, posFin, columna);
+					DyVCallesv4(posInicio, posMitad+1, columna);
+				}
+			}
+
+		}
+	}
+
+
 	private static void Greedy1v1(){
-		System.out.println(Greedy1v1(matrizSensores).toString());
+		if(limitesSuperados.size()>0)
+			System.out.println(Greedy1v1(matrizSensores).toString());
+		else
+			System.out.println("No hay ningún problema de contaminacion en el polígono.");
 	}
 
 	private static HashSet<String> Greedy1v1(Sensor[][] matriz){
@@ -522,7 +753,10 @@ public class Depuradora {
 
 
 	private static void Greedy1v2(){
-		System.out.println(Greedy1v2(matrizSensores).toString());
+		if(limitesSuperados.size()>0)
+			System.out.println(Greedy1v2(matrizSensores).toString());
+		else
+			System.out.println("No hay ningún problema de contaminacion en el polígono.");
 	}
 
 	private static HashSet<String> Greedy1v2(Sensor[][] matriz){
@@ -533,7 +767,7 @@ public class Depuradora {
 		int comprobar = 0;
 
 		//Selecciona las calles conflictivas
-		for(int i = matriz[medio].length-1; i >= 0; i--){
+		for(int i = 0; i < matriz[medio].length; i++){
 			resultado = matriz[medio][i];
 			//Comprueba si hay un problema en ese sensor
 			comprobar = resultado.comprobarEstado(limitesSuperados);
@@ -549,6 +783,9 @@ public class Depuradora {
 					System.out.println("Se tienen que cerrar las empresas que vierten a la calle "+(i+1));
 				}else
 					System.out.println("Las empresas que vierten a la calle "+(i+1)+" pueden trabajar");
+			}else{
+				System.out.println("Correcto a partir del sensor "+resultado.getNombre());
+				break;
 			}
 		}
 
@@ -581,6 +818,113 @@ public class Depuradora {
 					culpables.addAll(sensorEmpresas.get(matriz[i][calle].getNombre()));
 				}else{
 					System.out.println("Sensor correcto: "+matriz[i][calle].getNombre());
+				}
+			}
+
+
+			//Comprueba los sensores de la Avenida
+			resultado = matriz[medio][calle];
+			if(calle != matriz[medio].length-1)
+				resultado = restarEstaciones(resultado, matriz[medio][calle+1]);
+
+			//Restamos zona norte
+			resultado = restarEstaciones(resultado, matriz[medio-1][calle]);
+
+			//Restamos zona sur
+			resultado = restarEstaciones(resultado, matriz[medio+1][calle]);
+
+			if(resultado.comprobarEstado(limitesSuperados) > 0){
+				System.out.println("Problema en sensor: "+matriz[medio][calle].getNombre());
+				culpables.addAll(sensorEmpresas.get(matriz[medio][calle].getNombre()));
+			}else{
+				System.out.println("Sensor correcto: "+matriz[medio][calle].getNombre());
+			}
+		}
+
+		//Devuelve todas las empresas culpables
+		return culpables;
+	}
+
+
+	private static void Greedy1v3(){
+		if(limitesSuperados.size()>0)
+			System.out.println(Greedy1v3(matrizSensores).toString());
+		else
+			System.out.println("No hay ningún problema de contaminacion en el polígono.");
+	}
+
+
+	private static HashSet<String> Greedy1v3(Sensor[][] matriz){
+		int medio = matriz.length/2;
+		HashSet<String> culpables = new HashSet<String>();
+		Sensor resultado = new Sensor();
+		HashSet<Integer> callesCandidatas = new HashSet<Integer>();
+		int comprobar = 0;
+
+		//Selecciona las calles conflictivas, si empieza el bucle desde el principio se pueden descartar calles del final
+		for(int i = 0; i < matriz[medio].length; i++){
+			resultado = matriz[medio][i];
+			//Comprueba si hay un problema en ese sensor
+			comprobar = resultado.comprobarEstado(limitesSuperados);
+			if(comprobar != 0){
+				manejarBalsa(comprobar);
+
+				//Calcula lo que vierte esa calle
+				if(i != matriz[medio].length-1)
+					resultado = restarEstaciones(resultado, matriz[medio][i+1]);
+				//Comprueba si esa calle está contaminando
+				if(resultado.comprobarEstado(limitesSuperados) > 0){
+					callesCandidatas.add(i);
+					System.out.println("Se tienen que cerrar las empresas que vierten a la calle "+(i+1));
+				}else
+					System.out.println("Las empresas que vierten a la calle "+(i+1)+" pueden trabajar");
+			}else{
+				System.out.println("Pueden trabajar las empresas que vierten a partir de la calle"+(i+1));
+				break;
+			}
+
+		}
+
+		//Detecta los sensores con incidencias de las calles candidatas
+		for(Integer calle : callesCandidatas){
+			comprobarBalsaLLena();
+
+			//Comprueba los sensores de la Zona norte
+			for (int i = medio-1; i >= 0; i--){
+				resultado = matriz[i][calle];
+				if(resultado.comprobarEstado(limitesSuperados)==0){
+					System.out.println("Sensor correcto a partir de: "+resultado.getNombre());
+					break;
+				}else{
+
+					if(i != 0)
+						resultado = restarEstaciones(resultado, matriz[i-1][calle]);
+
+					if(resultado.comprobarEstado(limitesSuperados) > 0){
+						System.out.println("Problema en sensor: "+matriz[i][calle].getNombre());
+						culpables.addAll(sensorEmpresas.get(matriz[i][calle].getNombre()));
+					}else{
+						System.out.println("Sensor correcto: "+matriz[i][calle].getNombre());
+					}
+				}
+			}
+
+			//Comprueba los sensores de la Zona Sur
+			for (int i = medio+1; i < matriz.length; i++){
+				resultado = matriz[i][calle];
+				if(resultado.comprobarEstado(limitesSuperados)==0){
+					System.out.println("Sensor correcto a partir de: "+resultado.getNombre());
+					break;
+				}else{
+					if(i != matriz.length-1)
+						resultado = restarEstaciones(resultado, matriz[i+1][calle]);
+
+					if(resultado.comprobarEstado(limitesSuperados) > 0){
+						System.out.println("Problema en sensor: "+matriz[i][calle].getNombre());
+						culpables.addAll(sensorEmpresas.get(matriz[i][calle].getNombre()));
+					}else{
+						System.out.println("Sensor correcto: "+matriz[i][calle].getNombre());
+					}
 				}
 			}
 
@@ -685,6 +1029,97 @@ public class Depuradora {
 		}
 	}
 
+
+	private static void Greedy2v2(){
+		Greedy2v2(matrizSensores, empresasCulpables, zonaGris);
+	}
+
+	private static void Greedy2v2(Sensor[][] matriz, HashSet<String> empresasCulpables, HashSet<String> zonaGris){
+		int medio = matriz.length/2;
+		HashSet<String> aux = new HashSet<String>();
+		Sensor resultado = new Sensor();
+		Sensor sensorMedida = new Sensor();
+		String datos = "";
+		greedy2v2.put("Empresas sin problemas:", new TreeSet<String>());
+		greedy2v2.put("Empresas con problemas:", new TreeSet<String>());
+		greedy2v2.put("Zonas grises:", new TreeSet<String>());
+		//Comprueba la Zona norte
+		for(int j = 0; j < matriz[0].length; j++){
+			for (int i = 0; i < medio; i++){
+				sensorMedida = resultado = matriz[i][j];
+				if(i != 0)
+					resultado = restarEstacionesConTodosContaminantes(resultado, matriz[i-1][j]);
+
+				if(resultado.comprobarAlerta(limites) != null){
+					aux.clear();
+					aux.addAll(sensorEmpresas.get(sensorMedida.getNombre()));
+					if(aux.size()==1){
+						datos = aux.toString();
+						datos += " "+resultado.comprobarAlerta(limites);
+						greedy2v2.get("Empresas con problemas:").add(datos);
+					}else{
+						greedy2v2.get("Zonas grises:").add(aux.toString()+" "+resultado.comprobarAlerta(limites));
+					}
+
+				}else{
+					greedy2v2.get("Empresas sin problemas:").addAll(sensorEmpresas.get(sensorMedida.getNombre()));
+				}
+			}
+
+
+		//Comprueba la Zona Sur
+			for (int i = matriz.length-1; i > medio; i--){
+				sensorMedida = resultado = matriz[i][j];
+				if(i != matriz.length-1)
+					resultado = restarEstacionesConTodosContaminantes(resultado, matriz[i+1][j]);
+
+				if(resultado.comprobarAlerta(limites) != null){
+					aux.clear();
+					aux.addAll(sensorEmpresas.get(sensorMedida.getNombre()));
+					if(aux.size()==1){
+						datos = aux.toString();
+						datos += " "+resultado.comprobarAlerta(limites);
+						greedy2v2.get("Empresas con problemas:").add(datos);
+					}else{
+						greedy2v2.get("Zonas grises:").add(aux.toString()+" "+resultado.comprobarAlerta(limites));
+					}
+
+				}else{
+					greedy2v2.get("Empresas sin problemas:").addAll(sensorEmpresas.get(sensorMedida.getNombre()));
+				}
+
+			}
+
+
+		//Comprueba la Avenida
+			sensorMedida = resultado = matriz[medio][j];
+			if(j != matriz[medio].length-1)
+				resultado = restarEstacionesConTodosContaminantes(resultado, matriz[medio][j+1]);
+
+			//Restamos zona norte
+			resultado = restarEstacionesConTodosContaminantes(resultado, matriz[medio-1][j]);
+
+			//Restamos zona sur
+			resultado = restarEstacionesConTodosContaminantes(resultado, matriz[medio+1][j]);
+
+			if(resultado.comprobarAlerta(limites) != null){
+				aux.clear();
+				aux.addAll(sensorEmpresas.get(sensorMedida.getNombre()));
+				if(aux.size()==1){
+					datos = aux.toString();
+					datos += " "+resultado.comprobarAlerta(limites);
+					greedy2v2.get("Empresas con problemas:").add(datos);
+				}else{
+					greedy2v2.get("Zonas grises:").add(aux.toString()+" "+resultado.comprobarAlerta(limites));
+				}
+
+			}else{
+				greedy2v2.get("Empresas sin problemas:").addAll(sensorEmpresas.get(sensorMedida.getNombre()));
+			}
+		}
+	}
+
+
 	//Para calcular lo que se ha vertido en un sensor en concreto, restando solo los contaminantes con problemas
 		private static Sensor restarEstaciones(Sensor restar, Sensor menor){
 			if(restar.getFantasma() != null)
@@ -736,7 +1171,7 @@ public class Depuradora {
 
 		return resultado;
 	}
-	
+
 	private static void manejarBalsa(int comprobar){
 		if(comprobar != 0){
 			if(comprobar == 1 && !riesgoCritico){
@@ -759,7 +1194,6 @@ public class Depuradora {
 				if(balsa.isDesvioActivo())
 					System.out.println("Se cancela el desvío, se cierran las zonas sin explorar");
 				balsa.setDesvioActivo(false);
-				System.out.println("No hace nada");
 			}
 		}
 	}

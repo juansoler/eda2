@@ -8,6 +8,7 @@ public class Sensor implements Comparable<Sensor>{
 	private String nombre;
 	private Double flujo;
 	private HashMap<String,Double> concentracion;
+
 	//Referencia al sensor anterior no nulo si lo hay
 	private Sensor fantasma = null;
 
