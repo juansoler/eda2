@@ -1,0 +1,317 @@
+
+
+
+SENSOR CORRECTO A PARTIR DE DN11
+
+INFRACCION EN SENSOR CN11
+
+Las empresas culpables son: [CN10]
+SENSOR CORRECTO BN11
+
+
+INFRACCION EN SENSOR ES11
+
+Las empresas culpables son: [FS10]
+INFRACCION EN SENSOR DS11
+
+Las empresas culpables son: [ES10]
+
+SENSOR CORRECTO CS11
+INFRACCION EN SENSOR BS11
+
+Las empresas culpables son: [CS10]
+INFRACCION EN SENSOR A11
+
+Las empresas culpables son: [A10]
+
+
+
+INFRACCION EN SENSOR FN10
+
+Las empresas culpables son: [FN9, FN10]
+INFRACCION EN SENSOR EN10
+
+Las empresas culpables son: [EN9, EN10]
+SENSOR CORRECTO DN10
+
+SENSOR CORRECTO CN10
+SENSOR CORRECTO BN10
+SENSOR CORRECTO A PARTIR DE CS10
+INFRACCION EN SENSOR BS10
+
+Las empresas culpables son: [CS9]
+INFRACCION EN SENSOR A10
+
+Las empresas culpables son: [BS9, BS10]
+
+
+
+
+INFRACCION EN SENSOR FN9
+
+Las empresas culpables son: [FN8]
+SENSOR CORRECTO EN9
+INFRACCION EN SENSOR DN9
+
+Las empresas culpables son: [DN9, DN8]
+
+INFRACCION EN SENSOR CN9
+
+Las empresas culpables son: [CN8, CN9]
+INFRACCION EN SENSOR BN9
+
+Las empresas culpables son: [BN9]
+
+
+INFRACCION EN SENSOR ES9
+
+Las empresas culpables son: [FS8, FS9]
+INFRACCION EN SENSOR DS9
+
+Las empresas culpables son: [ES9, ES8]
+
+SENSOR CORRECTO CS9
+SENSOR CORRECTO BS9
+INFRACCION EN SENSOR A9
+
+Las empresas culpables son: [BS8, A9]
+
+
+
+SENSOR CORRECTO A PARTIR DE FN8
+INFRACCION EN SENSOR EN8
+
+Las empresas culpables son: [EN8]
+SENSOR CORRECTO DN8
+
+SENSOR CORRECTO CN8
+INFRACCION EN SENSOR BN8
+
+Las empresas culpables son: [BN7, BN8]
+
+
+SENSOR CORRECTO ES8
+INFRACCION EN SENSOR DS8
+
+Las empresas culpables son: [ES7]
+
+SENSOR CORRECTO CS8
+INFRACCION EN SENSOR BS8
+
+Las empresas culpables son: [CS7]
+INFRACCION EN SENSOR A8
+
+Las empresas culpables son: [A7, A8]
+
+
+
+INFRACCION EN SENSOR FN7
+
+Las empresas culpables son: [FN7, FN6]
+INFRACCION EN SENSOR EN7
+
+Las empresas culpables son: [EN7]
+INFRACCION EN SENSOR DN7
+
+Las empresas culpables son: [DN7]
+
+SENSOR CORRECTO CN7
+INFRACCION EN SENSOR BN7
+
+Las empresas culpables son: [BN6]
+
+
+INFRACCION EN SENSOR ES7
+
+Las empresas culpables son: [FS6, FS7]
+SENSOR CORRECTO DS7
+
+INFRACCION EN SENSOR CS7
+
+Las empresas culpables son: [DS6, DS7]
+INFRACCION EN SENSOR BS7
+
+Las empresas culpables son: [CS6]
+INFRACCION EN SENSOR A7
+
+Las empresas culpables son: [BS6, BS7]
+
+
+
+
+SENSOR CORRECTO A PARTIR DE FN6
+INFRACCION EN SENSOR EN6
+
+Las empresas culpables son: [EN6]
+SENSOR CORRECTO DN6
+
+INFRACCION EN SENSOR CN6
+
+Las empresas culpables son: [CN6, CN5]
+INFRACCION EN SENSOR BN6
+
+Las empresas culpables son: [BN5]
+
+
+SENSOR CORRECTO ES6
+INFRACCION EN SENSOR DS6
+
+Las empresas culpables son: [ES6]
+
+SENSOR CORRECTO CS6
+INFRACCION EN SENSOR BS6
+
+Las empresas culpables son: [CS5]
+INFRACCION EN SENSOR A6
+
+Las empresas culpables son: [A6, BS5]
+
+
+
+
+INFRACCION EN SENSOR FN5
+
+Las empresas culpables son: [FN5]
+INFRACCION EN SENSOR EN5
+
+Las empresas culpables son: [EN4, EN5]
+INFRACCION EN SENSOR DN5
+
+Las empresas culpables son: [DN5]
+
+SENSOR CORRECTO CN5
+SENSOR CORRECTO BN5
+
+
+INFRACCION EN SENSOR ES5
+
+Las empresas culpables son: [FS4, FS5]
+INFRACCION EN SENSOR DS5
+
+Las empresas culpables son: [ES5, ES4]
+
+INFRACCION EN SENSOR CS5
+
+Las empresas culpables son: [DS4, DS5]
+SENSOR CORRECTO BS5
+INFRACCION EN SENSOR A5
+
+Las empresas culpables son: [BS4, A4, A5]
+
+
+
+INFRACCION EN SENSOR FN4
+
+Las empresas culpables son: [FN4]
+INFRACCION EN SENSOR EN4
+
+Las empresas culpables son: [EN3]
+INFRACCION EN SENSOR DN4
+
+Las empresas culpables son: [DN3, DN4]
+
+INFRACCION EN SENSOR CN4
+
+Las empresas culpables son: [CN4, CN3]
+INFRACCION EN SENSOR BN4
+
+Las empresas culpables son: [BN4]
+
+SENSOR CORRECTO A PARTIR DE DS4
+SENSOR CORRECTO DS4
+
+INFRACCION EN SENSOR CS4
+
+Las empresas culpables son: [DS3]
+SENSOR CORRECTO BS4
+INFRACCION EN SENSOR A4
+
+Las empresas culpables son: [BS3]
+
+
+
+SENSOR CORRECTO A PARTIR DE FN3
+INFRACCION EN SENSOR EN3
+
+Las empresas culpables son: [EN2]
+SENSOR CORRECTO DN3
+
+SENSOR CORRECTO CN3
+INFRACCION EN SENSOR BN3
+
+Las empresas culpables son: [BN3]
+
+
+INFRACCION EN SENSOR ES3
+
+Las empresas culpables son: [FS3]
+INFRACCION EN SENSOR DS3
+
+Las empresas culpables son: [ES3]
+
+INFRACCION EN SENSOR CS3
+
+Las empresas culpables son: [DS2]
+INFRACCION EN SENSOR BS3
+
+Las empresas culpables son: [CS3]
+INFRACCION EN SENSOR A3
+
+Las empresas culpables son: [A2, A3]
+
+
+
+
+INFRACCION EN SENSOR FN2
+
+Las empresas culpables son: [FN1, FN2]
+SENSOR CORRECTO EN2
+SENSOR CORRECTO DN2
+
+INFRACCION EN SENSOR CN2
+
+Las empresas culpables son: [CN2, CN1]
+INFRACCION EN SENSOR BN2
+
+Las empresas culpables son: [BN2]
+
+
+INFRACCION EN SENSOR ES2
+
+Las empresas culpables son: [FS2, FS1]
+INFRACCION EN SENSOR DS2
+
+Las empresas culpables son: [ES2]
+
+INFRACCION EN SENSOR CS2
+
+Las empresas culpables son: [DS1]
+INFRACCION EN SENSOR BS2
+
+Las empresas culpables son: [CS2]
+SENSOR CORRECTO A2
+
+
+SENSOR CORRECTO A PARTIR DE FN1
+INFRACCION EN SENSOR EN1
+
+Las empresas culpables son: [EN1]
+SENSOR CORRECTO DN1
+
+SENSOR CORRECTO CN1
+SENSOR CORRECTO BN1
+
+
+SENSOR CORRECTO ES1
+INFRACCION EN SENSOR DS1
+
+Las empresas culpables son: [ES1]
+
+SENSOR CORRECTO CS1
+INFRACCION EN SENSOR BS1
+
+Las empresas culpables son: [CS1]
+INFRACCION EN SENSOR A1
+
+Las empresas culpables son: [A1, BS1]
+

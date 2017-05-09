@@ -1,0 +1,60 @@
+@Avenidas
+5
+
+@Calles
+6
+
+@MatrizSensores
+CN1 CN2 CN3 CN4 CN5 CN6 CN7
+BN1 BN2 BN3 BN4 BN5 BN6 BN7
+A1 A2 A3 A4 A5 A6 A7
+BS1 BS2 BS3 BS4 BS5 BS6 BS7
+CS1 CS2 CS3 CS4 CS5 CS6 CS7
+
+@Limites
+Contaminante1 0.7 1
+Contaminante2 0.7 1
+Contaminante3 0.7 1
+
+@Empresas
+CN 1 l 1 0.1 0.1 0
+CN 2 r 1 0.1 0.1 0.1
+CN 3 r 1 0.1 0.1 0.1
+CN 4 r 1 0.1 0.1 0.1
+CN 5 r 1 0.1 0.1 0.1
+CN 6 r 1 0.1 0.1 0.1
+
+BN 1 r 1 0.1 0.1 0.1
+BN 2 r 1 0.1 0.1 0.1
+BN 3 r 1 0.1 0.1 0.1
+BN 4 r 1 0.1 0.1 0.1
+BN 5 r 1 0.1 0 0.1
+BN 6 l 1 0.1 0.1 0.1
+
+A 1 r 1 0.1 0.1 0.1
+A 2 r 1 0.1 0.1 0.1
+A 3 r 1 0.1 0.1 0.1
+A 4 r 1 0.1 0 0.1
+A 5 r 1 0.1 0.1 0.1
+A 6 l 1 0.1 0.1 0.1
+
+BS 1 R 1 0.1 0.1 0.1
+BS 2 R 1 0.1 0.1 0.1
+BS 3 R 1 0.1 0.1 0.1
+BS 4 l 1 0.1 0.1 0.1
+BS 5 l 1 0.1 0.1 0.1
+BS 6 l 1 0.1 0.1 0.1
+
+CS 1 R 1 0.1 0.1 0.1
+CS 2 R 1 0.1 0.05 0.1
+CS 3 R 1 0.1 0.1 0.1
+CS 4 R 1 0.1 0.1 0.1
+CS 5 r 1 0.1 0.1 0.1
+CS 6 l 1 0.1 0.1 0.1
+
+DS 1 l 1 0 0 0.1
+DS 2 R 1 0.1 0.1 0.05
+DS 3 R 1 0.1 0.1 0.1
+DS 4 r 1 0 0.1 0.1
+DS 5 l 1 0.1 0.1 0.1
+DS 6 R 1 0 0.1 0.1
