@@ -2,19 +2,23 @@ package Practica;
 
 public class Balsa {
 
-	private double cantidad;
+	private double capacidad;
 	private boolean desvioActivo;
 
-	public Balsa(Double cantidad){
-		this.setCantidad(cantidad);
+	public Balsa(){
+
 	}
 
-	public double getCantidad() {
-		return cantidad;
+	public Balsa(Double capacidad){
+		this.setCapacidad(capacidad);
 	}
 
-	public void setCantidad(double cantidad) {
-		this.cantidad = cantidad;
+	public double getCapacidad() {
+		return capacidad;
+	}
+
+	public void setCapacidad(double capacidad) {
+		this.capacidad = capacidad;
 	}
 
 	public boolean isDesvioActivo() {

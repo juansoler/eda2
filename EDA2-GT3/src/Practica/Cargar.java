@@ -8,10 +8,10 @@ import java.util.Scanner;
 
 public class Cargar {
 
-		public static Sensor[][] loadFile(String file, HashMap<String, HashSet<String>> sensorEmpresas, HashMap<String, Double[]> limitesDep) {
+		public static Sensor[][] loadFile(String file, HashMap<String, HashSet<String>> sensorEmpresas, HashMap<String, Double[]> limitesDep, Balsa balsa) {
 		Sensor[][] matrizSensores = null;
 		Scanner sc = null;
-		boolean leerLimites = false, leerEmpresas = false, maSensores = false;
+		boolean leerLimites = false, leerEmpresas = false, maSensores = false, capacidadBalsa = false;;
 		Sensor aux = null;
 		int nAvenidas=0, posicion, nCalles=0, posFila=0;
 		HashMap<String,Double> mgContaminantesPorLitro;
@@ -37,6 +37,7 @@ public class Cargar {
 				}else if(line.startsWith("@MatrizSensores")){
 					leerLimites = false;
 					leerEmpresas = false;
+					capacidadBalsa = false;
 					maSensores = true;
 					posFila=0;
 					continue;
@@ -44,11 +45,20 @@ public class Cargar {
 					leerLimites = true;
 					leerEmpresas = false;
 					maSensores = false;
+					capacidadBalsa = false;
 					continue;
 				} else if (line.startsWith("@Empresas")) {
 					leerLimites = false;
 					leerEmpresas = true;
 					maSensores = false;
+					capacidadBalsa = false;
+					posFila=0;
+					continue;
+				}else if (line.startsWith("@CapacidadBalsa")) {
+					leerLimites = false;
+					leerEmpresas = false;
+					maSensores = false;
+					capacidadBalsa = true;
 					posFila=0;
 					continue;
 				}
@@ -103,6 +113,8 @@ public class Cargar {
 					limites[0]=Double.parseDouble(items[1]);
 					limites[1]=Double.parseDouble(items[2]);
 					limitesDep.put(items[0],limites);
+				}else if(capacidadBalsa){
+					balsa.setCapacidad(Integer.parseInt(line));
 				}
 			}
 

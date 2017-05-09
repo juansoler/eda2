@@ -15,8 +15,9 @@ public class Depuradora {
 	private static HashMap<String, Double[]> limitesSuperados = new HashMap<String, Double[]>();
 	private static HashSet<String> empresasCulpables = new HashSet<String>();
 	private static HashSet<String> zonaGris = new HashSet<String>();
+	private static HashSet<String> empresasCorrectas = new HashSet<String>();
 	private static HashMap<String, TreeSet<String>> greedy2v2 = new HashMap<String, TreeSet<String>>();
-	public static Balsa balsa = new Balsa(1.50);
+	public static Balsa balsa = new Balsa();
 	private static long tiempoInicio = 0;
 	private static long tiempoActual = 0;
 	private static long tiempoMax = 0;
@@ -32,19 +33,19 @@ public class Depuradora {
 				"Practica" + File.separator + "Empresas12.txt";
 
 		//Cargar las estructuras utilizadas
-		matrizSensores = Cargar.loadFile(directorioEntrada, sensorEmpresas, limites);
+		matrizSensores = Cargar.loadFile(directorioEntrada, sensorEmpresas, limites, balsa);
 
 		//Comprueba los contaminantes con problemas
 		detectarContaminantes();
 
 		entrada = new Scanner(System.in);
 
-		for(Sensor it : matrizSensores[matrizSensores.length/2]){
-			System.out.print("Sensor: "+it.getNombre());
-			for(String s :it.getConcentracion().keySet())
-				System.out.print("  "+s);
-			System.out.println();
-		}
+//		for(Sensor it : matrizSensores[matrizSensores.length/2]){
+//			System.out.print("Sensor: "+it.getNombre());
+//			for(String s :it.getConcentracion().keySet())
+//				System.out.print("  "+s);
+//			System.out.println();
+//		}
 
 
 		int opcion = 0;
@@ -59,6 +60,8 @@ public class Depuradora {
 			}
 		}while(opcion < 0 || opcion > 11);
 
+		long inicio= 0;
+		long fin = 0;
 
 		switch(opcion){
 		case 0: FuerzaBrutav1();
@@ -83,18 +86,42 @@ public class Depuradora {
 		break;
 		case 10: Greedy2v1();
 		break;
-		case 11: Greedy2v2();
-		for(Entry<String, TreeSet<String>> it:greedy2v2.entrySet())
-			System.out.println(it.getKey()+" "+it.getValue().toString());
+		case 11: 
+			Greedy2v1();
+			Greedy2v1();
+			Greedy2v1();
+
+			System.out.println("Para version 3");
+			inicio = System.currentTimeMillis();
+			Greedy2v3();
+			fin = System.currentTimeMillis();
+			System.out.println(fin-inicio);
+			System.out.println("Para version 2");
+			inicio = System.currentTimeMillis();
+			Greedy2v2();
+			fin = System.currentTimeMillis();
+			System.out.println(fin-inicio);
+			System.out.println("Para version 1");
+			inicio = System.currentTimeMillis();
+			Greedy2v1();
+			fin = System.currentTimeMillis();
+			System.out.println(fin-inicio);
 		break;
 		}
 
-		for(String aux : empresasCulpables){
-			System.out.println(aux);
-		}
-		int cont = 0;
-		for(String aux : zonaGris)
-			System.out.println("Zona gris: "+(cont++)+" "+aux);
+		for(String s:empresasCorrectas)
+			System.out.println(s);
+		System.out.println(empresasCulpables.size());
+		System.out.println(zonaGris.size());
+		for(Entry<String, TreeSet<String>> e:greedy2v2.entrySet())
+			System.out.println(e.getKey()+" "+e.getValue().size());
+		
+//		for(String aux : empresasCulpables){
+//			System.out.println(aux);
+//		}
+//		int cont = 0;
+//		for(String aux : zonaGris)
+//			System.out.println("Zona gris: "+(cont++)+" "+aux);
 	}
 
 
@@ -1040,7 +1067,6 @@ public class Depuradora {
 		Sensor resultado = new Sensor();
 		Sensor sensorMedida = new Sensor();
 		String datos = "";
-		greedy2v2.put("Empresas sin problemas:", new TreeSet<String>());
 		greedy2v2.put("Empresas con problemas:", new TreeSet<String>());
 		greedy2v2.put("Zonas grises:", new TreeSet<String>());
 		//Comprueba la Zona norte
@@ -1061,8 +1087,6 @@ public class Depuradora {
 						greedy2v2.get("Zonas grises:").add(aux.toString()+" "+resultado.comprobarAlerta(limites));
 					}
 
-				}else{
-					greedy2v2.get("Empresas sin problemas:").addAll(sensorEmpresas.get(sensorMedida.getNombre()));
 				}
 			}
 
@@ -1084,10 +1108,7 @@ public class Depuradora {
 						greedy2v2.get("Zonas grises:").add(aux.toString()+" "+resultado.comprobarAlerta(limites));
 					}
 
-				}else{
-					greedy2v2.get("Empresas sin problemas:").addAll(sensorEmpresas.get(sensorMedida.getNombre()));
 				}
-
 			}
 
 
@@ -1113,8 +1134,6 @@ public class Depuradora {
 					greedy2v2.get("Zonas grises:").add(aux.toString()+" "+resultado.comprobarAlerta(limites));
 				}
 
-			}else{
-				greedy2v2.get("Empresas sin problemas:").addAll(sensorEmpresas.get(sensorMedida.getNombre()));
 			}
 		}
 	}
@@ -1147,6 +1166,82 @@ public class Depuradora {
 		}
 
 
+		private static void Greedy2v3(){
+			Greedy2v3(matrizSensores, empresasCulpables, zonaGris);
+		}
+
+		private static void Greedy2v3(Sensor[][] matriz, HashSet<String> empresasCulpables, HashSet<String> zonaGris){
+			int medio = matriz.length/2;
+			HashSet<String> aux = new HashSet<String>();
+			Sensor resultado = new Sensor();
+			Sensor sensorMedida = new Sensor();
+			String datos = "";
+
+			//Comprueba la Zona norte
+			for(int j = 0; j < matriz[0].length; j++){
+				for (int i = 0; i < medio; i++){
+					sensorMedida = resultado = matriz[i][j];
+					if(i != 0)
+						resultado = restarEstacionesConTodosContaminantes(resultado, matriz[i-1][j]);
+
+					if(resultado.comprobarAlerta(limites) != null){
+						aux.clear();
+						aux.addAll(sensorEmpresas.get(sensorMedida.getNombre()));
+						if(aux.size()==1){
+							datos = aux.toString();
+							datos += resultado.comprobarAlerta(limites);
+							empresasCorrectas.add("Empresa culpable: "+datos);
+						}else
+							empresasCorrectas.add("Zona gris: "+aux.toString()+" "+resultado.comprobarAlerta(limites));
+
+					}
+				}
+
+
+			//Comprueba la Zona Sur
+				for (int i = matriz.length-1; i > medio; i--){
+					sensorMedida = resultado = matriz[i][j];
+					if(i != matriz.length-1)
+						resultado = restarEstacionesConTodosContaminantes(resultado, matriz[i+1][j]);
+
+					if(resultado.comprobarAlerta(limites) != null){
+						aux.clear();
+						aux.addAll(sensorEmpresas.get(sensorMedida.getNombre()));
+						if(aux.size()==1){
+							datos = aux.toString();
+							datos += resultado.comprobarAlerta(limites);
+							empresasCorrectas.add("Empresa culpable: "+datos);
+						}else
+							empresasCorrectas.add("Zona gris: "+aux.toString()+" "+resultado.comprobarAlerta(limites));
+					}
+				}
+
+
+			//Comprueba la Avenida
+				sensorMedida = resultado = matriz[medio][j];
+				if(j != matriz[medio].length-1)
+					resultado = restarEstacionesConTodosContaminantes(resultado, matriz[medio][j+1]);
+
+				//Restamos zona norte
+				resultado = restarEstacionesConTodosContaminantes(resultado, matriz[medio-1][j]);
+
+				//Restamos zona sur
+				resultado = restarEstacionesConTodosContaminantes(resultado, matriz[medio+1][j]);
+
+				if(resultado.comprobarAlerta(limites) != null){
+					aux.clear();
+					aux.addAll(sensorEmpresas.get(sensorMedida.getNombre()));
+					if(aux.size()==1){
+						datos = aux.toString();
+						datos += resultado.comprobarAlerta(limites);
+						empresasCorrectas.add("Empresa culpable: "+datos);
+					}else
+						empresasCorrectas.add("Zona gris: "+aux.toString()+" "+resultado.comprobarAlerta(limites));
+
+				}
+			}
+		}
+		
 	//Para calcular lo que se ha vertido en un sensor en concreto, restando todos los contaminantes
 	private static Sensor restarEstacionesConTodosContaminantes(Sensor restar, Sensor menor){
 		if(restar.getFantasma() != null)
@@ -1186,7 +1281,7 @@ public class Depuradora {
 					tiempoInicio = System.nanoTime();
 					System.out.println("Se activa desvio a la balsa "  );
 					balsa.setDesvioActivo(true);
-					tiempoMax = (long) ((long) (balsa.getCantidad()) / matrizSensores[matrizSensores.length/2][0].getFlujo());
+					tiempoMax = (long) ((long) (balsa.getCapacidad()) / matrizSensores[matrizSensores.length/2][0].getFlujo());
 					System.out.println("Tiempo máximo de desvio " + tiempoMax + " segundos");
 				}
 			}else{
