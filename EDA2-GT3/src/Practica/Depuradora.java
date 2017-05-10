@@ -10,26 +10,25 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import GeneradorPruebas.generadorPruebas;
 import java.util.Scanner;
-import java.util.TreeSet;
 
 public class Depuradora {
 
-	public static Sensor[][] matrizSensores = null;
-	public static HashMap<String, HashSet<String>> sensorEmpresas = new HashMap<String, HashSet<String>>();
+	private static Sensor[][] matrizSensores = null;
+	private static HashMap<String, HashSet<String>> sensorEmpresas = new HashMap<String, HashSet<String>>();
 	private static HashMap<String, Double[]> limites = new HashMap<String, Double[]>();
 	private static HashMap<String, Double[]> limitesSuperados = new HashMap<String, Double[]>();
 	private static HashSet<String> empresasCulpables = new HashSet<String>();
 	private static HashSet<String> zonaGris = new HashSet<String>();
 	private static HashSet<String> greedy2v3 = new HashSet<String>();
-	private static HashMap<String, TreeSet<String>> greedy2v2 = new HashMap<String, TreeSet<String>>();
-	public static Balsa balsa = new Balsa();
+	private static HashMap<String, HashSet<String>> greedy2v2 = new HashMap<String, HashSet<String>>();
+	private static Balsa balsa = new Balsa();
 	private static long tiempoInicio = 0;
 	private static long tiempoActual = 0;
 	private static long tiempoMax = 0;
 	@SuppressWarnings("unused")
 	private static Scanner entrada;
 	private static boolean riesgoCritico = false;
-	public static BufferedWriter out = null;
+	private static BufferedWriter out = null;
 	public static PrintWriter pw = null;
 	public static void main(String[] args) throws IOException {
 
@@ -1298,8 +1297,8 @@ public class Depuradora {
 		Sensor resultado = new Sensor();
 		Sensor sensorMedida = new Sensor();
 		String datos = "";
-		greedy2v2.put("Empresas con problemas:", new TreeSet<String>());
-		greedy2v2.put("Zonas grises:", new TreeSet<String>());
+		greedy2v2.put("Empresas con problemas:", new HashSet<String>());
+		greedy2v2.put("Zonas grises:", new HashSet<String>());
 		//Comprueba la Zona norte
 		for(int j = 0; j < matriz[0].length; j++){
 			for (int i = 0; i < medio; i++){
@@ -1396,8 +1395,9 @@ public class Depuradora {
 		Sensor sensorMedida = new Sensor();
 		String datos = "";
 
-		//Comprueba la Zona norte
+		
 		for(int j = 0; j < matriz[0].length; j++){
+			//Comprueba la Zona norte
 			for (int i = 0; i < medio; i++){
 				sensorMedida = resultado = matriz[i][j];
 				if(i != 0)
