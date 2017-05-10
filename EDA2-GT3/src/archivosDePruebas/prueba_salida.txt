@@ -1,0 +1,47 @@
+***************************************************
+***************************************************
+Metodo elegido DyV v4
+
+***************************************************
+***************************************************
+Se activa desvio a la balsa 
+Tiempo máximo de desvio 72 segundos
+El devio se encuentra activo, aun puede estar activado: 72 segundos
+SENSOR CORRECTO A PARTIR DE BN6
+Se cancela el desvío, se cierran las zonas sin explorar
+INFRACCION EN SENSOR CS6
+
+Las empresas culpables son: [DS5]
+SENSOR CORRECTO BS6
+SENSOR CORRECTO A6
+
+
+INFRACCION EN SENSOR CN5
+
+Las empresas culpables son: [CN4, CN5]
+SENSOR CORRECTO BN5
+SENSOR CORRECTO A PARTIR DE BS5
+SENSOR CORRECTO A5
+SENSOR CORRECTO A PARTIR DE BN4
+SENSOR CORRECTO A PARTIR DE BS4
+SENSOR CORRECTO A4
+
+SENSOR CORRECTO A PARTIR DE BN3
+SENSOR CORRECTO A PARTIR DE BS3
+SENSOR CORRECTO A3
+
+SENSOR CORRECTO A PARTIR DE BN2
+
+INFRACCION EN SENSOR CS2
+
+Las empresas culpables son: [DS1]
+SENSOR CORRECTO BS2
+SENSOR CORRECTO A2
+
+INFRACCION EN SENSOR CN1
+
+Las empresas culpables son: [CN1]
+SENSOR CORRECTO BN1
+SENSOR CORRECTO A PARTIR DE BS1
+SENSOR CORRECTO A1
+

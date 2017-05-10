@@ -33,7 +33,7 @@ public class Depuradora {
 	public static void main(String[] args) throws IOException {
 
 		String directorio = System.getProperty("user.dir") + File.separator
-				+ "src" + File.separator + "Practica" + File.separator;
+				+ "src" + File.separator +  "archivosDePruebas"+ File.separator;
 
 		@SuppressWarnings("resource")
 		Scanner entrada = new Scanner(System.in);
@@ -50,55 +50,63 @@ public class Depuradora {
 		String numeroAvenidas  = "0";
 		String numeroContaminantes = "0";
 		String balsaCapacidad = "0";
+		String peorPeculiar = "0";
 		String peorCaso = "0";
+		String mejorCaso = "0";
+		String casoPromedio = "0";
 		String todosIzq = "0";
 		String calleMitadFull = "0";
 		String empresasContaminantes = "0";
-
 		System.out.println("Introduce el nombre del archivo a generar");
 		nombreArchivo = entrada.next();
 
 		System.out.println("Introduce el numero de calles");
 		numeroCalles = entrada.next();
-
+		
 		System.out.println("Introduce el numero de Avenidas");
 		numeroAvenidas = entrada.next();
-
+		
 		System.out.println("Introduce el numero de Contaminantes");
 		numeroContaminantes = entrada.next();
-
+		
 		System.out.println("Introduce la capacidad de la balsa descontaminadora.  0 = Por defecto(100.000)");
 		balsaCapacidad = entrada.next();
-
+		
 		System.out.println("Introduce el numero de empresas que desee que contaminen");
 		empresasContaminantes = entrada.next();
-
+		
 		System.out.println("¿Desea vertir todas las empresas a la izquierda?  1=Si,  0=No");
 		todosIzq = entrada.next();
-
+	
 		System.out.println("¿Desea que todas las empresas de dos calles adyacentes viertan en el mismo sensor?  1=Si,  0=No");
 		calleMitadFull = entrada.next();
-
-
-		System.out.println("¿Desea generar un peorCaso extremo? Las empresas contaminantes se encuentran en las cuatro esquinas, además del numero de aleatorias que haya elegido  1=Si,  0=No");
+	
+		
+		System.out.println("¿Desea generar un casoPeculiar? Las empresas contaminantes se encuentran en las cuatro esquinas, además del numero de aleatorias que haya elegido  1=Si,  0=No");
+		peorPeculiar = entrada.next();
+		
+		System.out.println("¿Desea generar un casoMejor? Serán 0 las empresas que contaminan sobrescribira el valor establecido. 1=Si,  0=No");
+		mejorCaso = entrada.next();
+		System.out.println("¿Desea generar un casoPeor? Serán " + (Integer.parseInt(numeroCalles)*Integer.parseInt(numeroAvenidas)+10)+" las empresas que contaminan sobrescribira el valor establecido. 1=Si,  0=No");
 		peorCaso = entrada.next();
-
-
-
+		System.out.println("¿Desea generar un casoPromedio? Serán " + (Integer.parseInt(numeroCalles)*Integer.parseInt(numeroAvenidas)+10)/2 +" las empresas que contaminan sobrescribira el valor establecido. 1=Si,  0=No");
+		casoPromedio = entrada.next();
+	
 		String[] argumentos = new String[] {nombreArchivo+"_entrada.txt", numeroCalles, numeroAvenidas
 				, numeroContaminantes
 				, balsaCapacidad
 				, todosIzq
 				, calleMitadFull
-				, peorCaso
+				, peorPeculiar
 				, empresasContaminantes
-		};
+				, mejorCaso
+				, peorCaso
+				, casoPromedio
+				};
 		generadorPruebas.main(argumentos);
+		
 
-
-		directorioEntrada = System.getProperty("user.dir") + File.separator +
-				"src" + File.separator +
-				"Practica" + File.separator + nombreArchivo+ "_entrada.txt";
+		directorioEntrada = directorio + nombreArchivo+ "_entrada.txt";
 		}else{
 
 			directorioEntrada = System.getProperty("user.dir") + File.separator +

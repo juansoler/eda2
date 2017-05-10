@@ -1,0 +1,56 @@
+***************************************************
+***************************************************
+Metodo elegido DyV v4
+
+***************************************************
+***************************************************
+
+
+
+INFRACCION EN SENSOR CN6
+
+Las empresas culpables son: [CN5]
+SENSOR CORRECTO BN6
+SENSOR CORRECTO A PARTIR DE BS6
+SENSOR CORRECTO A6
+
+SENSOR CORRECTO A PARTIR DE CN5
+INFRACCION EN SENSOR BN5
+
+Las empresas culpables son: [BN5]
+SENSOR CORRECTO A PARTIR DE BS5
+SENSOR CORRECTO A5
+SENSOR CORRECTO A PARTIR DE CN4
+INFRACCION EN SENSOR BN4
+
+Las empresas culpables son: [BN4]
+SENSOR CORRECTO A PARTIR DE BS4
+INFRACCION EN SENSOR A4
+
+Las empresas culpables son: []
+
+
+INFRACCION EN SENSOR CN3
+
+Las empresas culpables son: [CN3]
+SENSOR CORRECTO BN3
+SENSOR CORRECTO A PARTIR DE BS3
+INFRACCION EN SENSOR A3
+
+Las empresas culpables son: [BS2, A2, A3, BS3]
+
+
+INFRACCION EN SENSOR CN2
+
+Las empresas culpables son: [CN2, CN1]
+INFRACCION EN SENSOR BN2
+
+Las empresas culpables son: [BN1, BN2]
+SENSOR CORRECTO A PARTIR DE BS2
+INFRACCION EN SENSOR A2
+
+Las empresas culpables son: [A1]
+SENSOR CORRECTO A PARTIR DE BN1
+SENSOR CORRECTO A PARTIR DE BS1
+SENSOR CORRECTO A1
+
